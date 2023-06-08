@@ -1,0 +1,25 @@
+.card-h{
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+.card-h2{
+    align-items: center;
+    text-align: center;
+}
+.numero{
+    text-align: center;
+    font-size:100px;
+}
+.numero_danger{
+    text-align: center;
+    font-size:100px;
+    color: #df4759;
+}
+
+.table-scroll {
+  max-height: 200px;
+  overflow: auto;
+  display:inline-block;
+
+}
