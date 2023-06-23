@@ -39,9 +39,13 @@ $(document).ready(function() {
         dataType: 'json',
         success: function(response) {
           if (response.success) {
-            $('#result').html('Inicio de sesión exitoso');
+            //$('#result').html('Inicio de sesión exitoso');
+            alert("Inicio exitoso");
+            $('#loginModal').modal('hide');
           } else {
-            $('#result').html('Inicio de sesión fallido');
+            //$('#result').html('Inicio de sesión fallido');
+            alert("Inicio fallido");
+            $('#loginModal').modal('hide');
           }
         },
         error: function() {
