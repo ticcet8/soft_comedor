@@ -1,3 +1,12 @@
+<?php
+  /**
+   * Roles
+   * Estudiante 1
+   * Cocinera 2
+   * Admin 3
+   */
+  $rol = $_GET['rol']
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,6 +51,8 @@
     </div>
   </nav>
   <div class="container mt-3">
+    <?php if($rol == 1){
+    ?>
     <!--- Vista de Estudiante -->
     <div class="row">
       <div class="col-md-6 col-sm-12">
@@ -68,7 +79,8 @@
         </div>
       </div>
     </div>
-    
+    <?php }
+    if ($rol == 2){ ?>
     <!-- Vista Cocineras-->
     <div class="row mt-3">
       <div class="col-md-12">
@@ -274,6 +286,9 @@
 
       </div>
     </div>
+    <?php } 
+    if($rol == 3){
+    ?>
     <!-- Vista de admin-->
     <div class="row mt-2">
       <div class="col-md-12">
@@ -360,6 +375,8 @@
       </div>
     </div>
   </div>
+  <?php } 
+  if($rol == 1){?>
   <!-- Modals de estudiante-->
   <div class="modal" id="valorar">
     <div class="modal-dialog">
@@ -391,7 +408,9 @@
       </div>
     </div>
   </div>
-
+    <?php }
+    if($rol ==3){
+    ?>
 
   <!--Modals de admin-->
   <div class="modal" id="agregar_estudiante">
@@ -491,7 +510,7 @@
     </div>
   </div>
 
-
+    <?php } ?>
 
 
 
