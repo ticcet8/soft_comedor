@@ -14,7 +14,7 @@ $(document).ready(function() {
       console.log(data);
       $.ajax({
         type: 'POST',
-        url: 'login.php',
+        url: 'php/login.php',
         data: data,
         dataType: 'json',
         success: function(response) {

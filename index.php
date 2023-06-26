@@ -23,7 +23,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
 
-          <a class="nav-link"><i class="bi bi-person"></i>Ingresar</a>
+          <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i>Ingresar</a>
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
               aria-expanded="false">Nombre_Usuario</a>
@@ -430,7 +430,7 @@
             </div>
             <div class="form-group">
               <label for="alergias">Alergias</label>
-              <textarea name="alergias" id="mensaje" class="form-control" cols="30" rows="5"></textarea>
+              <textarea name="alergias" id="alergias" class="form-control" cols="30" rows="5"></textarea>
             </div>
             <h6 class="mt-2">Días que se queda a comer</h6>
             <div class="form-group form-inline">
@@ -490,7 +490,30 @@
       </div>
     </div>
   </div>
-
+   <!-- Modal login -->
+   <div class="modal" id="loginModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Iniciar Sesión</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">Usuario:</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña:</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Iniciar Sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -499,6 +522,7 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
   <script>
+    /** Bloque de programación Para calificar la comida */
     var contador = 0;
     function calificar(item) {
 
@@ -520,5 +544,7 @@
       alert("Gracias por calificar con " + contador + " estrellas");
     }
   </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
