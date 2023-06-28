@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    /*** Para obtener valor del formulario */
+    /*** Para obtener valor del formulario AJAX
     $('#login-form').submit(function(event) {
       event.preventDefault();
   
@@ -33,5 +33,6 @@ $(document).ready(function() {
         }
       });
     });
+    */
   });
 

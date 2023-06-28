@@ -1,3 +1,8 @@
+<?php
+  session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,27 +27,29 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-
+          <?php if (!isset($_SESSION['usuario'])) { ?>
           <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i>Ingresar</a>
+          <?php }else{ ?>
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-              aria-expanded="false">Nombre_Usuario</a>
+              aria-expanded="false"><?php echo $_SESSION['usuario'];?></a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">Cambiar contraseña</a></li>
               <li><a class="dropdown-item" href="#">Ajustes</a></li>
-              <li><a class="dropdown-item" href="#">Salir</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Salir</a></li>
+              <li><a class="dropdown-item" href="php/logout.php">Salir</a></li>
             </ul>
           </div>
+          <?php }?>
         </div>
       </div>
     </div>
   </nav>
   <div class="container mt-3">
     <!--- Vista de Estudiante -->
+    <?php if(isset($_SESSION['rol']) && $_SESSION['rol']==0){?>
     <div class="row">
       <div class="col-md-6 col-sm-12">
 
@@ -68,7 +75,7 @@
         </div>
       </div>
     </div>
-    
+    <?php }elseif(isset($_SESSION['rol']) && $_SESSION['rol']==1){ ?>
     <!-- Vista Cocineras-->
     <div class="row mt-3">
       <div class="col-md-12">
@@ -275,6 +282,7 @@
       </div>
     </div>
     <!-- Vista de admin-->
+    <?php }elseif(isset($_SESSION['rol']) && $_SESSION['rol']==2){ ?>
     <div class="row mt-2">
       <div class="col-md-12">
         <div class="card">
@@ -360,6 +368,8 @@
       </div>
     </div>
   </div>
+  <?php }?>
+  <?php if(isset($_SESSION['rol']) && $_SESSION['rol']==0){ ?>
   <!-- Modals de estudiante-->
   <div class="modal" id="valorar">
     <div class="modal-dialog">
@@ -391,7 +401,7 @@
       </div>
     </div>
   </div>
-
+  <?php }elseif(isset($_SESSION['rol']) && $_SESSION['rol']==2){ ?>
 
   <!--Modals de admin-->
   <div class="modal" id="agregar_estudiante">
@@ -490,6 +500,7 @@
       </div>
     </div>
   </div>
+  <?php } ?>
    <!-- Modal login -->
    <div class="modal" id="loginModal">
     <div class="modal-dialog">
@@ -499,7 +510,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form id="login-form">
+          <form id="login-form" method="POST" action="php/login.php">
             <div class="form-group">
               <label for="username">Usuario:</label>
               <input type="text" class="form-control" id="username" name="username" required>
