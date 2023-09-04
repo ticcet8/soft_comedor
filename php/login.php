@@ -12,7 +12,7 @@ if (!isset($_SESSION['usuario'])){
         // como consultar una base de datos, verificar contraseñas, etc.
     
         // Ejemplo básico de verificación de usuario y contraseña
-        if ($username === 'usuario' && $password === 'contraseña') {
+        if ($username === 'alam' && $password === 'contraseña') {
         // Inicio de sesión exitoso
         $_SESSION['usuario'] = $username; // Guardar el nombre de usuario en la variable de sesión
         $_SESSION['rol'] = 1;
@@ -23,8 +23,10 @@ if (!isset($_SESSION['usuario'])){
         exit;
         } else {
         // Inicio de sesión fallido
-        echo "error";
         $error = "Nombre de usuario o contraseña incorrectos";
+        echo $error;
+        sleep(3);
+        header('Location: ../index.php');
         }
     }else{
         echo "No ingreso al post";

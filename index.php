@@ -48,6 +48,16 @@
     </div>
   </nav>
   <div class="container mt-3">
+    <?php if(!isset($_SESSION['usuario'])){?>
+    <div class="col-md-12 col-sm-12s">
+        <div class="card card-h">
+          <div class="card-body">
+            <h5 class="card-title">Menú del Día</h5>
+            <p class="card-text my-5">Pizza</p>
+          </div>
+        </div>
+      </div>
+    </div><?php }?>
     <!--- Vista de Estudiante -->
     <?php if(isset($_SESSION['rol']) && $_SESSION['rol']==0){?>
     <div class="row">
