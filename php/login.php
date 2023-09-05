@@ -15,7 +15,7 @@ if (!isset($_SESSION['usuario'])){
         if ($username === 'alam' && $password === 'contraseña') {
         // Inicio de sesión exitoso
         $_SESSION['usuario'] = $username; // Guardar el nombre de usuario en la variable de sesión
-        $_SESSION['rol'] = 1;
+        $_SESSION['rol'] = 0;
         /***
          * Roles: 0 estudiante, 1 cocinera y 2 admin. 
          */
