@@ -71,12 +71,15 @@ dias_acomer:{
 }
 Habilitado: 1 o 0
 comidas: [id_comida, id_comida…]
+
 Curso: 
 id
 nombre
+
 Comida
 id_comida
 nombre
+
 Diario
 fecha: 
 comida: id_comida
