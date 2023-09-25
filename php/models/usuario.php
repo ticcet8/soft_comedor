@@ -31,8 +31,8 @@ class Usuario {
      * sesion, encaso contrario devolvera error según el tipo
     */
     public function iniciar_sesion(){
-
-        $database = new Database("localhost", "root", "", "soft_comedor");
+        
+        $database = new Database();
         $database->connect();
 
         $nombre = $this->nombreUsuario;
