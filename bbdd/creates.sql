@@ -1,17 +1,17 @@
 CREATE TABLE usuarios (
-    id_usuario INT PRIMARY KEY,
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre_usuario VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     rol VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE curso(
-    id_curso INT PRIMARY KEY,
+    id_curso INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50)
 );
 
 CREATE TABLE dias_acomer(
-    id_dias_acomer INT PRIMARY KEY,
+    id_dias_acomer INT PRIMARY KEY AUTO_INCREMENT,
     lunes VARCHAR(50) NOT NULL,
     martes VARCHAR(50) NOT NULL,
     miercoles VARCHAR(50) NOT NULL,
@@ -20,12 +20,12 @@ CREATE TABLE dias_acomer(
 );
 
 CREATE TABLE comida(
-    id_comida INT PRIMARY KEY,
+    id_comida INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE estudiante (
-    id_estudiante INT PRIMARY KEY,
+    id_estudiante INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
     apellido VARCHAR(255) NOT NULL,
     dni VARCHAR(10) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE estudiante (
 );
 
 CREATE TABLE comentario(
-    id_comentario INT PRIMARY KEY,
+    id_comentario INT PRIMARY KEY AUTO_INCREMENT,
     comentario VARCHAR(255),
     valoracion INT NOT NULL,
     fecha DATE NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE comentario(
 );
 
 CREATE TABLE comensales(
-    id_comensal INT PRIMARY KEY,
+    id_comensal INT PRIMARY KEY AUTO_INCREMENT,
     id_comida INT NOT NULL,
     id_estudiante INT NOT NULL,
     comio BOOLEAN NOT NULL,

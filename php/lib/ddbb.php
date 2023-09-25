@@ -6,11 +6,11 @@ class Database {
     private $database;
     private $conn;
 
-    public function __construct($host, $username, $password, $database) {
-        $this->host = $host;
-        $this->username = $username;
-        $this->password = $password;
-        $this->database = $database;
+    public function __construct() {
+        $this->host = 'localhost';
+        $this->username = 'root';
+        $this->password = '';
+        $this->database = 'soft_comedor';
     }
 
     public function connect() {
@@ -43,4 +43,5 @@ class Database {
             return null;
         }
     }
+
 }?>
