@@ -16,10 +16,18 @@ if ($us['error'] == 1){
 }else{
     echo "inicio sesión";
 }
- */
+
 $curso = new Curso('1°2°CSTM');
 if($curso->guardar()){
     echo "<br>Curso Guardado<hr>";
+}else{
+    echo "<br>Curso No Guardado<hr>";
 }
-
+ */
+$usuario = new Usuario('alamito','alam');
+if($usuario->guardar()){
+    echo "guardado";
+}else{
+    echo "no guardado";
+}
 ?>

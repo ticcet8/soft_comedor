@@ -75,21 +75,29 @@ class Usuario {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
-        // FALTA CORROBORAR QUE NO SE ENCUENTRE ESE USUARIO DE ANTEMANO hacer un Array con el error.
+        // Corroboro que NO SE ENCUENTRE ESE USUARIO DE ANTEMANO hacer un Array con el error
+        $sqlSC = "SELECT `nombre_usuario` FROM `usuarios` WHERE nombre_usuario='$this->nombreUsuario'";
+        echo $sqlSC;
         // Consulta SQL para insertar un nuevo usuario
-        $sql = "INSERT INTO usuarios (nombre_usuario, password, rol) VALUES ('$this->nombreUsuario', '$this->password', '$this->rol')";
+        $r2 = $database->query($sqlSC);
+        $row = $r2->fetch_assoc();
 
-        // Ejecutar la consulta
-        $result = $database->query($sql);
+        if(!$row){
+            // Consulta SQL para insertar un nuevo usuario
+            $sql = "INSERT INTO usuarios (nombre_usuario, password, rol) VALUES ('$this->nombreUsuario', '$this->password', '$this->rol')";
 
-        // Verificar si la inserción fue exitosa
-        if ($result) {
-            $database->disconnect();
-            return true;
-        } else {
-            echo "Error en la inserción: " . $database->conn->error;
-            $database->disconnect();
-            return false;
+            // Ejecutar la consulta
+            $result = $database->query($sql);
+
+            // Verificar si la inserción fue exitosa
+            if ($result) {
+                $database->disconnect();
+                return true;
+            } else {
+                echo "Error en la inserción: " . $database->conn->error;
+                $database->disconnect();
+                return false;
+            }
         }
     }
 }

@@ -51,12 +51,14 @@ class Curso {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
-        // FALTA CORROBORAR QUE NO INGRESEN DOS CURSOS IGUALES
+        // Corroboro QUE NO INGRESEN DOS CURSOS IGUALES
         $sqlSC = "SELECT `id_curso`, `nombre` FROM `curso` WHERE nombre='$this->nombre'";
         echo $sqlSC;
         // Consulta SQL para insertar un nuevo usuario
         $r2 = $database->query($sqlSC);
-        if(!$r2){
+        $row = $r2->fetch_assoc();
+
+        if(!$row){
             $sql = "INSERT INTO `curso`(`nombre`) VALUES ('$this->nombre')";
 
             // Ejecutar la consulta
