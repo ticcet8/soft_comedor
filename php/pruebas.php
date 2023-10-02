@@ -17,7 +17,9 @@ if ($us['error'] == 1){
     echo "inicio sesión";
 }
  */
-$curso = new Curso('1°1°CSTM');
-$curso->guardar();
+$curso = new Curso('1°2°CSTM');
+if($curso->guardar()){
+    echo "<br>Curso Guardado<hr>";
+}
 
 ?>

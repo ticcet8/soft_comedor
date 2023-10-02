@@ -38,8 +38,6 @@ class Curso {
                 );
                 $cursos.append($curso);
             }
-            
-        
         }else{
             //sino devolver un string que diga error de usuario
            $usuario['error'] = 2; 
@@ -54,21 +52,27 @@ class Curso {
         $database = new Database();
         $database->connect();
         // FALTA CORROBORAR QUE NO INGRESEN DOS CURSOS IGUALES
+        $sqlSC = "SELECT `id_curso`, `nombre` FROM `curso` WHERE nombre='$this->nombre'";
+        echo $sqlSC;
         // Consulta SQL para insertar un nuevo usuario
-        $sql = "INSERT INTO `curso`(`nombre`) VALUES ('$this->nombre')";
+        $r2 = $database->query($sqlSC);
+        if(!$r2){
+            $sql = "INSERT INTO `curso`(`nombre`) VALUES ('$this->nombre')";
 
-        // Ejecutar la consulta
-        $result = $database->query($sql);
+            // Ejecutar la consulta
+            $result = $database->query($sql);
 
-        // Verificar si la inserción fue exitosa
-        if ($result) {
-            $database->disconnect();
-            return true;
-        } else {
-            echo "Error en la inserción: " . $database->conn->error;
-            $database->disconnect();
-            return false;
+            // Verificar si la inserción fue exitosa
+            if ($result) {
+                $database->disconnect();
+                return true;
+            } else {
+                echo "Error en la inserción: " . $database->conn->error;
+                $database->disconnect();
+                return false;
+            }
         }
+        
     }
 }
 ?>
