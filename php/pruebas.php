@@ -1,7 +1,9 @@
 <?php
 include 'models/usuario.php';
+include 'models/curso.php';
 include 'lib/ddbb.php';
 
+/***
 $usuario = new Usuario('alamito','alam');
 $us = $usuario->iniciar_sesion();
 print_r($us);
@@ -14,4 +16,8 @@ if ($us['error'] == 1){
 }else{
     echo "inicio sesión";
 }
+ */
+$curso = new Curso('1°1°CSTM');
+$curso->guardar();
+
 ?>

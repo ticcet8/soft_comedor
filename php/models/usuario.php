@@ -5,7 +5,8 @@ class Usuario {
     private $password;
     private $rol;
 
-    public function __construct($nombreUsuario, $password, $rol=4) {
+    public function __construct($nombreUsuario, $password, $rol=0) {
+        //Roles: 0 estudiante, 1 cocinera y 2 admin.
         $this->nombreUsuario = $nombreUsuario;
         $this->password = $password;
         $this->rol = $rol;
@@ -74,7 +75,7 @@ class Usuario {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
-
+        // FALTA CORROBORAR QUE NO SE ENCUENTRE ESE USUARIO DE ANTEMANO hacer un Array con el error.
         // Consulta SQL para insertar un nuevo usuario
         $sql = "INSERT INTO usuarios (nombre_usuario, password, rol) VALUES ('$this->nombreUsuario', '$this->password', '$this->rol')";
 
