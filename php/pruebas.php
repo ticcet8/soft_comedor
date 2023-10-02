@@ -57,4 +57,13 @@ if($usuario->guardar()){
 }else{
     echo "no guardado";
 }*/
+
+$usuario = Usuario::obtenerPorNombre("alamito");
+var_dump( $usuario );
+if($usuario->eliminar()){
+    echo "eliminado";
+}else{
+    echo "no eliminado";
+}
+
 ?> 

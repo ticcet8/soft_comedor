@@ -100,5 +100,50 @@ class Usuario {
             }
         }
     }
+
+    // Método para eliminar un usuario de la base de datos
+    public function eliminar() {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para eliminar el usuario
+        $sql = "DELETE FROM usuarios WHERE id_usuario = $this->id";
+
+        // Ejecutar la consulta
+        $result = $database->query($sql);
+
+        // Verificar si la eliminación fue exitosa
+        if ($result) {
+            $database->disconnect();
+            return true;
+        } else {
+            echo "Error en la eliminación: ";
+            $database->disconnect();
+            return false;
+        }
+    }
+
+    public static function obtenerPorNombre($nombreUsuario) {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para obtener el usuario por ID
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$nombreUsuario'";
+
+        // Ejecutar la consulta y obtener el resultado
+        $result = $database->query($sql);
+
+        if ($result && $row = $result->fetch_assoc()) {
+            $usuario = new Usuario($row['nombre_usuario'], $row['password'], $row['rol']);
+            $usuario->id = $row['id_usuario'];
+            $database->disconnect();
+            return $usuario;
+        } else {
+            $database->disconnect();
+            return null;
+        }
+    }
 }
 ?>
