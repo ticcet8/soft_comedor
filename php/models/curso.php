@@ -76,5 +76,57 @@ class Curso {
         }
         
     }
+    public function actualizar($nombre_nuevo) {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+        // Corroboro QUE NO INGRESEN DOS CURSOS IGUALES
+        $sqlSC = "SELECT `id_curso`, `nombre` FROM `curso` WHERE nombre='$nombre_nuevo'";
+        echo $sqlSC;
+        // Consulta SQL para insertar un nuevo usuario
+        $r2 = $database->query($sqlSC);
+        $row = $r2->fetch_assoc();
+
+        if(!$row){
+
+            $sql = "UPDATE curso SET nombre = '$nombre_nuevo' WHERE nombre = '$this->nombre'";
+            echo $sql;
+            // Ejecutar la consulta
+            $result = $database->query($sql);
+
+            // Verificar si la actualización fue exitosa
+            if ($result) {
+                $database->disconnect();
+                return true;
+            } else {
+                echo "Error en la inserción: ";
+                $database->disconnect();
+                return false;
+            }
+        }
+        
+    }
+    public function eliminar() {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+        // Corroboro QUE NO INGRESEN DOS CURSOS IGUALES
+        $sqlSC = "DELETE FROM curso WHERE nombre = '$this->nombre';";
+        echo $sqlSC;
+
+        // Ejecutar la consulta
+        $result = $database->query($sqlSC);
+
+        // Verificar si la eliminación fue exitosa
+        if ($result) {
+            $database->disconnect();
+            return true;
+        } else {
+            echo "Error en la inserción: ";
+            $database->disconnect();
+            return false;
+        }
+        
+    }
 }
 ?>
