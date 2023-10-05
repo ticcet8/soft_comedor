@@ -44,4 +44,8 @@ class Database {
         }
     }
 
+    public function obtenerUltimoIdInsertado() {
+        return $this->conn->insert_id;
+    }
+
 }?>
