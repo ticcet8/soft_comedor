@@ -91,8 +91,9 @@ class Usuario {
 
             // Verificar si la inserción fue exitosa
             if ($result) {
+                $id = $database->obtenerUltimoIdInsertado();
                 $database->disconnect();
-                return true;
+                return $id;
             } else {
                 echo "Error en la inserción: " . $database->conn->error;
                 $database->disconnect();

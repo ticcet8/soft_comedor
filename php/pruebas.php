@@ -1,8 +1,9 @@
 <?php
-include 'models/usuario.php';
-include 'models/curso.php';
 include 'lib/ddbb.php';
 include 'models/diasacomer.php';
+include 'models/usuario.php';
+include 'models/curso.php';
+include 'models/estudiante.php';
 
 /***
  * Prueba iniciar sesión y guardar
@@ -90,5 +91,34 @@ if($diasacomer->actualizardias(1,1,0,1,0)){
 }else{
     echo "No actualizada";   
 }
+
+$nombre = "Pedro";
+$apellido = "Perez";
+$dni = "35312682";
+$alergias = "";
+$habilitado = 1; 
+$penado = 0;
+$diasacomer = new DiasAComer(0,0,1,1,1);
+$id_dias = $diasacomer->guardar();
+$usuario = new  Usuario($dni,'1234');
+$id_usuario = $usuario->guardar();
+echo $id_usuario;
+$id_curso = 1;
+if($id_usuario){
+    $estudiante = new Estudiante($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso);
+    echo "estudiante creado";
+    
+    if($estudiante->guardar()){
+        echo "estudiante guardado";
+    }else{
+        echo "estudiante no guardado";
+    }
+}else{
+    echo "Usuario Incorrecto";
+}
 */
+$estudiante = Estudiante::obtenerPorDNI("35312682");
+$datos_estudiante = $estudiante->getDatosEstudiante();
+print_r ($datos_estudiante);
+
 ?> 
