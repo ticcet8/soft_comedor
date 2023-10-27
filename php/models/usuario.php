@@ -146,5 +146,26 @@ class Usuario {
             return null;
         }
     }
+    public static function obtenerPorId($id) {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para obtener el usuario por ID
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = '$id'";
+
+        // Ejecutar la consulta y obtener el resultado
+        $result = $database->query($sql);
+
+        if ($result && $row = $result->fetch_assoc()) {
+            $usuario = new Usuario($row['nombre_usuario'], $row['password'], $row['rol']);
+            $usuario->id = $row['id_usuario'];
+            $database->disconnect();
+            return $usuario;
+        } else {
+            $database->disconnect();
+            return null;
+        }
+    }
 }
 ?>

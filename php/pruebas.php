@@ -5,11 +5,11 @@ include 'models/usuario.php';
 include 'models/curso.php';
 include 'models/estudiante.php';
 
-/***
- * Prueba iniciar sesión y guardar
-$usuario = new Usuario('alamito','alam');
+/*** Prueba iniciar sesión y guardar
+$usuario = new Usuario('Juan','Hernandez');
 $us = $usuario->iniciar_sesion();
 print_r($us);
+
 if ($us['error'] == 1){
     if($usuario->guardar()){
         echo "guardado";
@@ -20,13 +20,12 @@ if ($us['error'] == 1){
     echo "inicio sesión";
 }
 // Prueba de guardado 
-$usuario = new Usuario('alamito','alam');
+$usuario = new Usuario('Juan','Pedro');
 if($usuario->guardar()){
     echo "guardado";
 }else{
     echo "no guardado";
 }
-
 
 */
 /***
@@ -91,7 +90,7 @@ if($diasacomer->actualizardias(1,1,0,1,0)){
 }else{
     echo "No actualizada";   
 }
-
+*/
 $nombre = "Pedro";
 $apellido = "Perez";
 $dni = "35312682";
@@ -100,8 +99,8 @@ $habilitado = 1;
 $penado = 0;
 $diasacomer = new DiasAComer(0,0,1,1,1);
 $id_dias = $diasacomer->guardar();
-$usuario = new  Usuario($dni,'1234');
-$id_usuario = $usuario->guardar();
+$usuario = Usuario::obtenerPorId(24);   
+$id_usuario = $usuario->getId();
 echo $id_usuario;
 $id_curso = 1;
 if($id_usuario){
@@ -116,9 +115,24 @@ if($id_usuario){
 }else{
     echo "Usuario Incorrecto";
 }
-*/
-$estudiante = Estudiante::obtenerPorDNI("35312682");
+
+/*
+//ACTUALIZACIÓN
+
+$estudiante = Estudiante::obtenerPorDNI("35343257");
+$datos_estudiante = $estudiante->getDatosEstudiante();
+print_r ($datos_estudiante);
+$estudiante->actualizar('Juan Carlos', 'Abadala', '35343257', 'a las zanahorias', 0);
+$estudiante = Estudiante::obtenerPorDNI("35343257");
 $datos_estudiante = $estudiante->getDatosEstudiante();
 print_r ($datos_estudiante);
 
+
+//OBTENGO LOS DATOS
+$estudiante = Estudiante::obtenerPorDNI("35312682");
+$datos_estudiante = $estudiante->getDatosEstudiante();
+print_r ($datos_estudiante);
+//ELIMINO AL ESTUDIANTE
+$estudiante->eliminar();
+*/
 ?> 

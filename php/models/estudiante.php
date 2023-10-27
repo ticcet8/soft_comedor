@@ -73,23 +73,20 @@
             }
         }
     }
-    public function actualizar($nombre, $apellido, $dni, $alergias, $habilitado, $penado, $id_dias, $id_usuario) {
+    public function actualizar($nombre, $apellido, $dni, $alergias, $habilitado) {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
 
         // Consulta SQL para actualizar el estudiante
         $sql = "UPDATE estudiante SET
-            nombre = '$nombre',
-            apellido = '$apellido',
-            dni = '$dni',
-            alergias = '$alergias',
-            habilitado = '$habilitado',
-            penado = '$penado',
-            id_dias_acomer = $id_dias,
-            id_usuario = $id_usuario
+            `nombre`='$nombre',
+            `apellido`='$apellido',
+            `dni`='$dni',
+            `alergias`='$alergias',
+            `habilitado`=$habilitado
             WHERE id_estudiante = $this->id_estudiante";
-
+       
         // Ejecutar la consulta
         $result = $database->query($sql);
 
@@ -118,6 +115,9 @@
         // Verificar si la eliminación fue exitosa
         if ($result) {
             $database->disconnect();
+            $usuario = Usuario::obtenerPorId($this->id_usuario);
+            //var_dump($usuario);
+            $usuario->eliminar();
             return true;
         } else {
             echo "Error en la eliminación: " . $database->conn->error;
