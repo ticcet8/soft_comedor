@@ -91,7 +91,7 @@ if($diasacomer->actualizardias(1,1,0,1,0)){
     echo "No actualizada";   
 }
 */
-$nombre = "Pedro";
+$nombre = "Juan";
 $apellido = "Perez";
 $dni = "35312682";
 $alergias = "";

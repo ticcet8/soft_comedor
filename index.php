@@ -1,5 +1,9 @@
 <?php
   session_start();
+  include 'php/lib/ddbb.php';
+  include 'php/models/estudiante.php';
+  include 'php/models/diasacomer.php';
+
 ?>
 
 
@@ -310,6 +314,43 @@
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
+              <tbody id="estudiantes-body">
+                <!-- Aquí se mostrarán los estudiantes -->
+                <?php
+                  $estudiantes = Estudiante::getEstudiantes();
+                  
+                  foreach ($estudiantes as $e) {
+                    
+                    echo "<tr>";
+                    echo '<td>' .$e->getNombre(). '</td>';
+                    echo '<td>' .$e->getApellido(). '</td>';
+                    $dias = DiasAComer::obtenerPorId($e->getId_dias());
+                    if (count($dias)>0) {
+                      echo '<td>';
+                        if($dias['lunes']=='1'){
+                          echo "L - ";
+                        }
+                        if($dias['martes']=='1'){
+                          echo "M - ";
+                        }
+                        if($dias['miercoles']=='1'){
+                          echo "X -";
+                        }
+                        if($dias['jueves']=='1'){
+                          echo " J -";
+                        }
+                        if($dias['viernes']=='1'){
+                          echo "V";
+                        }
+                      echo '</td>';
+                    }
+                    echo '<td> <button class="btn btn-primary">Ver</button>
+                    <button class="btn btn-warning">Modificar</button>
+                    <button class="btn btn-danger">Eliminar</button></td>';
+                  }
+                ?>
+              </tbody>
+              <!--
               <tbody>
                 <tr>
                   <td>Leonardo</td>
@@ -371,7 +412,7 @@
                     <button class="btn btn-danger">Eliminar</button>
                   </td>
                 </tr>
-              </tbody>
+              </tbody>-->
             </table>
           </div>
         </div>
@@ -542,6 +583,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/main.js"></script>
   <script>
     /** Bloque de programación Para calificar la comida */
     var contador = 0;
@@ -564,8 +608,8 @@
     function mensaje() {
       alert("Gracias por calificar con " + contador + " estrellas");
     }
+
+    
   </script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/main.js"></script>
 </body>
 </html>

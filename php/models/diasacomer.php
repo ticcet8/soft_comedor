@@ -67,7 +67,7 @@ class DiasAComer{
      
     }
 
-    public static function obtenerPorNombre($id) {
+    public static function obtenerPorId($id) {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
@@ -77,12 +77,19 @@ class DiasAComer{
 
         // Ejecutar la consulta y obtener el resultado
         $result = $database->query($sql);
-
-        if ($result && $row = $result->fetch_assoc()) {
-            $dias_a_comer = new Usuario($row['lunes'], $row['martes'], $row['miercoles'],row['jueves'],row['viernes']);
-            $usuario->id = $row['id_dias_acomer'];
+        
+        if ($result) {
+            $row_dias = $result->fetch_assoc();
+            //print_r($row_dias);
+            //echo $row_dias['id_dias_acomer'];
+            $dias_a_comer = array('lunes' => $row_dias['lunes'],
+            'martes' => $row_dias['martes'], 
+            'miercoles'=>$row_dias['miercoles'],
+            'jueves'=>$row_dias['jueves'],
+            'viernes'=>$row_dias['viernes']);
+            //$dias_a_comer->id = $row['id_dias_acomer'];
             $database->disconnect();
-            return $usuario;
+            return $dias_a_comer;
         } else {
             $database->disconnect();
             return null;

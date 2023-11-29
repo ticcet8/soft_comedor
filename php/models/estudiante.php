@@ -36,6 +36,33 @@
         );
         return $datosEstudiante;
     }
+    public function getID(){
+        return $this->id_estudiante;
+    }
+    public function getNombre(){
+        return $this->nombre;
+    }
+    public function getApellido(){
+        return $this->apellido;
+    }
+    public function getAlergias(){
+        return $this->alergias;
+    }
+    public function getHabilitado(){
+        return $this->habilitado;
+    }
+    public function getDni(){
+        return $this->dni;
+    }
+    public function getId_dias(){
+        return $this->id_dias;
+    }
+    public function getId_usuario(){
+        return $this->id_usuario;
+    }
+    public function getId_curso(){
+        return $this->id_curso;
+    }
     // Método para guardar un estudiante en la base de datos
     public function guardar() {
         // Instancia de la clase de base de datos
@@ -140,6 +167,7 @@
         //$nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso)
         if ($result && $row = $result->fetch_assoc()) {
             $estudiante = new Estudiante(
+                $row['id_estudiante'],
                 $row['nombre'],
                 $row['apellido'],
                 $row['dni'],
