@@ -54,7 +54,8 @@ class Usuario {
                     $usuario['nombre'] = $row['nombre_usuario'];
                     $usuario['rol'] = $row['rol'];
                 }else{
-                    $usuario['error']="Usuario no valido";
+                    $usuario['error']=1;
+                    $usuario['msj_error']= "Password Incorrecto";
                 }    
             }else{
                 $usuario['msj_error']= "usuario no encontrado";

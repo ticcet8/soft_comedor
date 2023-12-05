@@ -21,19 +21,20 @@ if (!isset($_SESSION['usuario'])){
         
         if ($inicio_sesion['error']==0) {
         // Inicio de sesión exitoso
-        $_SESSION['usuario'] = $username; // Guardar el nombre de usuario en la variable de sesión
-        $_SESSION['rol'] = $inicio_sesion['rol'];
-        /***
-         * Roles: 0 estudiante, 1 cocinera y 2 admin. 
-         */
-        header('Location: ../index.php'); // Redirigir a la página de inicio
-        exit;
+            $_SESSION['usuario'] = $username; // Guardar el nombre de usuario en la variable de sesión
+            $_SESSION['rol'] = $inicio_sesion['rol'];
+            /***
+             * Roles: 0 estudiante, 1 cocinera y 2 admin. 
+             */
+            header('Location: ../index.php'); // Redirigir a la página de inicio
+            exit;
         } else {
         // Inicio de sesión fallido
-        $error = $inicio_sesion['msj_error'];
-        echo $error;
-        sleep(3);
-        header('Location: ../index.php');
+            $error = $inicio_sesion['msj_error'];
+            echo $error;
+            echo "<br/><a href='../index.php'><button>Volver</button></a>";
+            //sleep(3);
+            //header('Location: ../index.php');
         }
     }else{
         echo "No ingreso al post";

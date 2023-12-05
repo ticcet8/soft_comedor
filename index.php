@@ -5,7 +5,6 @@
   include 'php/models/diasacomer.php';
   include 'php/models/curso.php';
   
-
 ?>
 
 
@@ -33,7 +32,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-          <?php if (!isset($_SESSION['usuario'])) { ?>
+          <?php if (!isset($_SESSION['usuario'])) {  ?>
           <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i>Ingresar</a>
           <?php }else{ ?>
           <div class="nav-item dropdown">
@@ -430,7 +429,7 @@
             
             <div class="form-group">
               <label for="curso">Curso</label>         
-              <select class="form-select" id="curso">
+              <select name="curso" class="form-select" id="curso">
 
                 <option value="0" selected>Elije...</option>
                 <?php
@@ -450,7 +449,7 @@
             <h6 class="mt-2">Días que se queda a comer</h6>
             <div class="form-group form-inline">
               <label for="lunes">Lunes</label>
-              <select class="form-select" id="lunes">
+              <select class="form-select" id="lunes" name="lunes">
                 <option value="0" selected>No come este día</option>
                 <option value="1">11.15hs</option>
                 <option value="2">12.20hs</option>
@@ -459,7 +458,7 @@
             </div>
             <div class="form-group form-inline">
               <label for="martes">Martes</label>
-              <select class="form-select" id="martes">
+              <select class="form-select" id="martes" name="martes">
                 <option value="0" selected>No come este día</option>
                 <option value="1">11.15hs</option>
                 <option value="2">12.20hs</option>
@@ -468,7 +467,7 @@
             </div>
             <div class="form-group form-inline">
               <label for="miercoles">Miércoles</label>
-              <select class="form-select" id="miercoles">
+              <select class="form-select" id="miercoles" name="miercoles">
                 <option value="0" selected>No come este día</option>
                 <option value="1">11.15hs</option>
                 <option value="2">12.20hs</option>
@@ -477,7 +476,7 @@
             </div>
             <div class="form-group form-inline">
               <label for="jueves">Jueves</label>
-              <select class="form-select" id="jueves">
+              <select class="form-select" id="jueves" name="jueves">
                 <option value="0" selected>No come este día</option>
                 <option value="1">11.15hs</option>
                 <option value="2">12.20hs</option>
@@ -486,7 +485,7 @@
             </div>
             <div class="form-group form-inline">
               <label for="viernes">Viernes</label>
-              <select class="form-select" id="viernes">
+              <select class="form-select" id="viernes" name="viernes">
                 <option value="0" selected>No come este día</option>
                 <option value="1">11.15hs</option>
                 <option value="2">12.20hs</option>
@@ -494,8 +493,8 @@
               </select>
             </div>
             <div class="form-group mt-2">
-              <label for="habilitado">Habilitado</label>
-              <input type="checkbox">
+              <label for="habilitado" >Habilitado</label>
+              <input type="checkbox" name="habilitado" id="habilitado">
             </div>
             <button class="btn btn-primary" id="agregarEstudiante">Agregar</button>
             <button class="btn btn-danger" type="reset">Borrar</button>
@@ -566,7 +565,7 @@
             // Define mensajes para otros campos aquí
         },
         submitHandler: function (form) {
-          $.post('tu_archivo_php.php', $(form).serialize(), function (respuesta) {
+          $.post('php/controlers/estudiantes.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
               console.log(respuesta);
           });
