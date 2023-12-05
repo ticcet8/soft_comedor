@@ -17,7 +17,7 @@ class Curso {
     /** Este método sirve para iniciar sesión. Devolverá un diccionario con los datos de nombreDeUsuario,rol,id, error=0 en caso de poder iniciar 
      * sesion, encaso contrario devolvera error según el tipo
     */
-    public function getCursos(){
+    public static function getCursos(){
         
         $database = new Database();
         $database->connect();
@@ -30,13 +30,13 @@ class Curso {
         if($result){
             //si devolvio un resultado debería corroborar contraseña $pass
             while ($row = $result->fetch_assoc()) {
-                echo "ID: " . $row['id_curso'] . "<br>";
-                echo "Nombre Curso: " . $row['nombre'] . "<br>";
+                //echo "ID: " . $row['id_curso'] . "<br>";
+                //echo "Nombre Curso: " . $row['nombre'] . "<br>";
                 $curso = array(
                     'id'=>$row['id_curso'],
                     'nombre'=>$row['nombre']
                 );
-                $cursos.append($curso);
+                $cursos[] = $curso;
             }
         }else{
             //sino devolver un string que diga error de usuario

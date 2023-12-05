@@ -3,6 +3,8 @@
   include 'php/lib/ddbb.php';
   include 'php/models/estudiante.php';
   include 'php/models/diasacomer.php';
+  include 'php/models/curso.php';
+  
 
 ?>
 
@@ -310,7 +312,8 @@
                 <tr>
                   <th scope="col">Nombre</th>
                   <th scope="col">Apellido</th>
-                  <th scope="col">Días que come</th>
+                  <th scope="col">Habilitado</th>
+                  <th scope="col">Días ha comer</th>
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
@@ -325,6 +328,12 @@
                     echo '<td>' .$e->getNombre(). '</td>';
                     echo '<td>' .$e->getApellido(). '</td>';
                     $dias = DiasAComer::obtenerPorId($e->getId_dias());
+                    $habilitado = $e->getHabilitado();
+                    if($habilitado == 1){
+                      echo '<td>Habilitado</td>';
+                    }else{
+                      echo '<td>No habilitado</td>';
+                    }
                     if (count($dias)>0) {
                       echo '<td>';
                         if($dias['lunes']=='1'){
@@ -350,69 +359,7 @@
                   }
                 ?>
               </tbody>
-              <!--
-              <tbody>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Leonardo</td>
-                  <td>da Vinci</td>
-                  <td>Lunes;Martes;Miércoles</td>
-                  <td>
-                    <button class="btn btn-primary">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button>
-                  </td>
-                </tr>
-              </tbody>-->
+              
             </table>
           </div>
         </div>
@@ -467,7 +414,7 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form class="form">
+          <form class="form" id="agregarEstudiante">
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" name="nombre" id="nombre">
@@ -480,14 +427,21 @@
               <label for="dni">DNI</label>
               <input type="text" class="form-control" name="dni" id="dni">
             </div>
+            
             <div class="form-group">
-              <label for="curso">Curso</label>
+              <label for="curso">Curso</label>         
               <select class="form-select" id="curso">
-                <option selected>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+
+                <option value="0" selected>Elije...</option>
+                <?php
+                  $cursos = Curso::getCursos();
+                  foreach($cursos as $curso){
+                    echo "<option value='".$curso['id']."'>".$curso['nombre']."</option>";
+                  }
+                  
+                ?>
               </select>
+        
             </div>
             <div class="form-group">
               <label for="alergias">Alergias</label>
@@ -543,7 +497,7 @@
               <label for="habilitado">Habilitado</label>
               <input type="checkbox">
             </div>
-            <button class="btn btn-primary">Agregar</button>
+            <button class="btn btn-primary" id="agregarEstudiante">Agregar</button>
             <button class="btn btn-danger" type="reset">Borrar</button>
           </form>
         </div>
@@ -585,7 +539,46 @@
     crossorigin="anonymous"></script>
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/jquery-validation.js"></script>
+  <script>
+    $("#agregarEstudiante").click(function(){
+      var nombre = $('#nombre').val();
+      var apellido = $('#apellido').val();
+    });
+    $('#agregarEstudiante').validate({
+        rules: {
+            nombre: 'required',
+            apellido: 'required',
+            dni:'required',
+            curso: {
+              min:1
+            },
+
+            // Define reglas para otros campos aquí
+        },
+        messages: {
+            nombre: 'Por favor, ingresa el nombre',
+            apellido: 'Por favor, ingresa el apellido',
+            dni: 'Por favor, ingresa el dni',
+            curso: {
+              min: 'Por favor, ingresa el curso'
+            },
+            // Define mensajes para otros campos aquí
+        },
+        submitHandler: function (form) {
+          $.post('tu_archivo_php.php', $(form).serialize(), function (respuesta) {
+              // Manejar la respuesta del servidor
+              console.log(respuesta);
+          });
+            // Esta función se ejecuta cuando el formulario es válido
+            // Aquí puedes enviar el formulario mediante AJAX o realizar otras acciones
+            // Ejemplo:
+            // $.post('tu_archivo_php.php', $(form).serialize(), function (respuesta) {
+            //     // Manejar la respuesta del servidor
+            // });
+        }
+    });
+  </script>
   <script>
     /** Bloque de programación Para calificar la comida */
     var contador = 0;
