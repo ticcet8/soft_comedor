@@ -166,8 +166,8 @@
         $result = $database->query($sql);
         //$nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso)
         if ($result && $row = $result->fetch_assoc()) {
+            
             $estudiante = new Estudiante(
-                $row['id_estudiante'],
                 $row['nombre'],
                 $row['apellido'],
                 $row['dni'],

@@ -335,24 +335,24 @@
                     }
                     if (count($dias)>0) {
                       echo '<td>';
-                        if($dias['lunes']=='1'){
+                        if($dias['lunes']!='0'){
                           echo "L - ";
                         }
-                        if($dias['martes']=='1'){
+                        if($dias['martes']!='0'){
                           echo "M - ";
                         }
-                        if($dias['miercoles']=='1'){
+                        if($dias['miercoles']!='0'){
                           echo "X -";
                         }
-                        if($dias['jueves']=='1'){
+                        if($dias['jueves']!='0'){
                           echo " J -";
                         }
-                        if($dias['viernes']=='1'){
+                        if($dias['viernes']!='0'){
                           echo "V";
                         }
                       echo '</td>';
                     }
-                    echo '<td> <button class="btn btn-primary">Ver</button>
+                    echo '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$e->getDni().'" ">Ver</button>
                     <button class="btn btn-warning">Modificar</button>
                     <button class="btn btn-danger">Eliminar</button></td>';
                   }
@@ -505,6 +505,23 @@
     </div>
   </div>
   <?php } ?>
+  <!--- Modal ver estudiante -->
+  <div class="modal" id="verEstudiante">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+          <h4 class="modal-title">Estudiante</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div id="detallesEstudiante"></div>
+          </div>
+          <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+  </div>
    <!-- Modal login -->
    <div class="modal" id="loginModal">
     <div class="modal-dialog">
@@ -576,6 +593,26 @@
             //     // Manejar la respuesta del servidor
             // });
         }
+    });
+
+    $('#verEstudiante').on('show.bs.modal', function (event) {
+                // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace
+                var boton = $(event.relatedTarget); // Botón que activó el modal
+                var idEstudiante = boton.data('id'); // Obtiene el valor del atributo data-id
+
+                // Hacer una solicitud AJAX para obtener los detalles del estudiante
+                $.ajax({
+                    url: 'php/controlers/obtener_datos_estudiante.php',
+                    type: 'POST',
+                    data: { dni: idEstudiante },
+                    success: function (data) {
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        $('#detallesEstudiante').html(data);
+                    },
+                    error: function () {
+                        alert('Error al obtener datos del estudiante.');
+                    }
+                });
     });
   </script>
   <script>
