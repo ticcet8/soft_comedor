@@ -305,7 +305,17 @@
             Listado de estudiantes
             <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#agregar_estudiante"><i class="bi bi-person-fill-add"></i></button>
           </div>
-          <div class="card-body div-tabla">
+          <div class="text-center mt-2">
+          <form>
+              <div class="form-group form-inline">
+                <label for="buscador">Buscar</label>
+                <input type="text" class="form-inline" id="buscador" name="buscador" placeholder="Ingrese nombre o dni" />
+                <button id="buscar" class="btn btn-primary">Buscar</button>
+              </div>
+            </form>
+          </div>
+          <div class="card-body">
+            
             <table class="table">
               <thead>
                 <tr>
@@ -353,13 +363,14 @@
                       echo '</td>';
                     }
                     echo '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$e->getDni().'" ">Ver</button>
-                    <button class="btn btn-warning">Modificar</button>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$e->getDni().'" ">Modificar</button>
                     <button class="btn btn-danger">Eliminar</button></td>';
                   }
                 ?>
               </tbody>
               
             </table>
+            
           </div>
         </div>
       </div>
@@ -546,8 +557,115 @@
       </div>
     </div>
   </div>
+  <!--Modal para modificar estudiante-->
+  <div class="modal" id="modificarEstudiante">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modificar Estudiante</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form" id="modEstudiante">
+            <div class="form-group">
+              <label for="mod_nombre_usuario">Nombre de Usuario</label>
+              <input type="text" class="form-control" name="mod_nombre_usuario" id="mod_nombre_usuario">
+            </div>
+            <div class="form-group">
+              <label for="mod_nombre">Nombre</label>
+              <input type="text" class="form-control" name="mod_nombre" id="mod_nombre">
+            </div>
+            <div class="form-group">
+              <label for="mod_apellido">Apellido</label>
+              <input type="text" class="form-control" name="mod_apellido" id="mod_apellido">
+            </div>
+            <div class="form-group">
+              <label for="mod_dni">DNI</label>
+              <input type="text" class="form-control" name="mod_dni" id="mod_dni">
+            </div>
+            
+            <div class="form-group">
+              <label for="curso">Curso</label>         
+              <select name="mod_curso" class="form-select" id="mod_curso">
 
-
+                <option value="0" selected>Elije...</option>
+                <?php
+                  $cursos = Curso::getCursos();
+                  foreach($cursos as $curso){
+                    echo "<option value='".$curso['id']."'>".$curso['nombre']."</option>";
+                  }
+                  
+                ?>
+              </select>
+        
+            </div>
+            <div class="form-group">
+              <label for="mod_alergias">Alergias</label>
+              <textarea name="mod_alergias" id="mod_alergias" class="form-control" cols="30" rows="5"></textarea>
+            </div>
+            <h6 class="mt-2">Días que se queda a comer</h6>
+            <div class="form-group form-inline">
+              <label for="mod_lunes">Lunes</label>
+              <select class="form-select" id="mod_lunes" name="mod_lunes">
+                <option value="0" selected>No come este día</option>
+                <option value="1">11.15hs</option>
+                <option value="2">12.20hs</option>
+                <option value="3">13.00hs</option>
+              </select>
+            </div>
+            <div class="form-group form-inline">
+              <label for="mod_martes">Martes</label>
+              <select class="form-select" id="mod_martes" name="mod_martes">
+                <option value="0" selected>No come este día</option>
+                <option value="1">11.15hs</option>
+                <option value="2">12.20hs</option>
+                <option value="3">13.00hs</option>
+              </select>
+            </div>
+            <div class="form-group form-inline">
+              <label for="mod_miercoles">Miércoles</label>
+              <select class="form-select" id="mod_miercoles" name="mod_miercoles">
+                <option value="0" selected>No come este día</option>
+                <option value="1">11.15hs</option>
+                <option value="2">12.20hs</option>
+                <option value="3">13.00hs</option>
+              </select>
+            </div>
+            <div class="form-group form-inline">
+              <label for="mod_jueves">Jueves</label>
+              <select class="form-select" id="mod_jueves" name="mod_jueves">
+                <option value="0" selected>No come este día</option>
+                <option value="1">11.15hs</option>
+                <option value="2">12.20hs</option>
+                <option value="3">13.00hs</option>
+              </select>
+            </div>
+            <div class="form-group form-inline">
+              <label for="mod_viernes">Viernes</label>
+              <select class="form-select" id="mod_viernes" name="mod_viernes">
+                <option value="0" selected>No come este día</option>
+                <option value="1">11.15hs</option>
+                <option value="2">12.20hs</option>
+                <option value="3">13.00hs</option>
+              </select>
+            </div>
+            <div class="form-group mt-2">
+              <label for="mod_habilitado" >Habilitado</label>
+              <input type="checkbox" name="mod_habilitado" id="mod_habilitado">
+            </div>
+            <button class="btn btn-primary" id="modEstudiante">Agregar</button>
+            <button class="btn btn-danger" type="reset">Borrar</button>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -608,6 +726,42 @@
                     success: function (data) {
                         // Coloca los detalles del estudiante en el contenido del modal
                         $('#detallesEstudiante').html(data);
+                    },
+                    error: function () {
+                        alert('Error al obtener datos del estudiante.');
+                    }
+                });
+    });
+    $('#modificarEstudiante').on('show.bs.modal', function (event) {
+                // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace
+                var boton = $(event.relatedTarget); // Botón que activó el modal
+                var idEstudiante = boton.data('id'); // Obtiene el valor del atributo data-id
+
+                // Hacer una solicitud AJAX para obtener los detalles del estudiante
+                 
+                $.ajax({
+                    url: 'php/controlers/obtener_datos_estudiante_pmod.php',
+                    type: 'POST',
+                    data: { dni: idEstudiante },
+                    dataType: 'json', // Indica que esperas una respuesta en formato JSON
+                    success: function (data) {
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        //console.log(data);
+                        $('#mod_nombre_usuario').val(data['nombre_usuario']);
+                        $('#mod_nombre').val(data['nombre']);
+                        $('#mod_apellido').val(data['apellido']);
+                        $('#mod_dni').val(data['dni']);
+                        $('#mod_curso').val(data['curso']);
+                        $('#mod_alergias').val(data['alergias']);
+                        $('#mod_lunes').val(data['dias'][0]);
+                        $('#mod_martes').val(data['dias'][1]);
+                        $('#mod_miercoles').val(data['dias'][2]);
+                        $('#mod_jueves').val(data['dias'][3]);
+                        $('#mod_viernes').val(data['dias'][4]);
+                        $("#mod_habilitado").prop('checked', data['habilitado'] === "1");
+                        
+
+                        
                     },
                     error: function () {
                         alert('Error al obtener datos del estudiante.');

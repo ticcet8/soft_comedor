@@ -128,5 +128,24 @@ class Curso {
         }
         
     }
+    //Método para buscar un solo curso por dni y devolverlo.
+     public static function obtenerPorId($id_curso) {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para obtener el estudiante por DNI
+        $sql = "SELECT * FROM curso WHERE dni = '$id_curso'";
+        // Ejecutar la consulta y obtener el resultado
+        $result = $database->query($sql);
+        if($result && $row = $result->fetch_assoc()){
+            $curso = new Curso($row['nombre']);
+            $database->disconnect();
+            return $curso;
+        }else{
+            $database->disconnect();
+            return null;
+        }
+    }
 }
 ?>
