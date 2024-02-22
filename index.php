@@ -658,8 +658,12 @@
               <label for="mod_habilitado" >Habilitado</label>
               <input type="checkbox" name="mod_habilitado" id="mod_habilitado">
             </div>
-            <button class="btn btn-primary" id="modEstudiante">Agregar</button>
-            <button class="btn btn-danger" type="reset">Borrar</button>
+            <input type="text" name="mod_idCurso" id="mod_idCurso" style="display:none;">
+            <input type="text" name="mod_idDias" id="mod_idDias" style="display:none;">
+            <input type="text" name="mod_idUsuario" id="mod_idUsuario" style="display:none;">
+
+            <button class="btn btn-success" id="modEstudianteButton">Actualizar</button>
+            <button class="btn btn-default" data-dismiss="modal">Volver</button>
           </form>
         </div>
   
@@ -760,13 +764,49 @@
                         $('#mod_viernes').val(data['dias'][4]);
                         $("#mod_habilitado").prop('checked', data['habilitado'] === "1");
                         
-
+                        $('#mod_idCurso').val(data['id_curso']);
+                        $('#mod_idDias').val(data['id_dias']);
+                        $('#mod_idUsuario').val(data['id_curso']);
                         
                     },
                     error: function () {
                         alert('Error al obtener datos del estudiante.');
                     }
                 });
+    });
+    $("#modEstudianteButton").validate({
+        rules: {
+            mod_nombre_usuario: 'required',
+            mod_nombre: 'required',
+            mod_apellido: 'required',
+            mod_dni:'required',
+            mod_curso: {
+              min:1
+            },
+
+            // Define reglas para otros campos aquí
+        },
+        messages: {
+            nombre: 'Por favor, ingresa el nombre',
+            apellido: 'Por favor, ingresa el apellido',
+            dni: 'Por favor, ingresa el dni',
+            curso: {
+              min: 'Por favor, ingresa el curso'
+            },
+            // Define mensajes para otros campos aquí
+        },
+        submitHandler: function (form) {
+          $.post('php/controlers/modificar_estudiante.php', $(form).serialize(), function (respuesta) {
+              // Manejar la respuesta del servidor
+              console.log(respuesta);
+          });
+            // Esta función se ejecuta cuando el formulario es válido
+            // Aquí puedes enviar el formulario mediante AJAX o realizar otras acciones
+            // Ejemplo:
+            // $.post('tu_archivo_php.php', $(form).serialize(), function (respuesta) {
+            //     // Manejar la respuesta del servidor
+            // });
+        }
     });
   </script>
   <script>

@@ -23,7 +23,11 @@ if($_POST){
       'alergias' => $alergias,
       'dias'=>[$dias['lunes'],$dias['martes'],$dias['miercoles'],$dias['jueves'],$dias['viernes']],
       'nombre_usuario'=>$nombre_usuario,
-      'habilitado'=>$estudiante->getHabilitado()
+      'habilitado'=>$estudiante->getHabilitado(),
+      'id_dias' =>$estudiante->getId_dias(),
+      'id_usuario' =>$estudiante->getId_usuario(),
+      'id_curso' =>$estudiante->getId_usuario()
+
     );
     
     echo json_encode($salida);

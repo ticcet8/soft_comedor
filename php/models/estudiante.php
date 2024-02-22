@@ -100,18 +100,20 @@
             }
         }
     }
-    public function actualizar($nombre, $apellido, $dni, $alergias, $habilitado) {
+    public function actualizar() {
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();
 
         // Consulta SQL para actualizar el estudiante
+        //$nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso
         $sql = "UPDATE estudiante SET
-            `nombre`='$nombre',
-            `apellido`='$apellido',
-            `dni`='$dni',
-            `alergias`='$alergias',
-            `habilitado`=$habilitado
+            `nombre`='$this->nombre',
+            `apellido`='$this->apellido',
+            `dni`='$this->dni',
+            `alergias`='$this->alergias',
+            `id_dias_acomer`='$this->id_dias',
+            `habilitado`=$this->habilitado
             WHERE id_estudiante = $this->id_estudiante";
        
         // Ejecutar la consulta
