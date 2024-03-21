@@ -24,6 +24,7 @@ if($_POST){
     $viernes = $_POST['mod_viernes'];
     $habilitado = ($_POST['mod_habilitado']=='on'?1:0);
 
+    /***
     //Actualizar días a comer
     $diasacomer = new DiasAComer($lunes,$martes,$miercoles,$jueves,$viernes);
     $id_dias = $diasacomer->guardar();
@@ -40,5 +41,6 @@ if($_POST){
     }else{
         echo json_encode(array('error' => 'Estudiante no guardado - Posiblemente existe'));
     }
+     */
 }
 ?>

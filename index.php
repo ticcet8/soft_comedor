@@ -507,7 +507,7 @@
               <label for="habilitado" >Habilitado</label>
               <input type="checkbox" name="habilitado" id="habilitado">
             </div>
-            <button class="btn btn-primary" id="agregarEstudiante">Agregar</button>
+            <input type="submit" class="btn btn-primary" value="Agregar">
             <button class="btn btn-danger" type="reset">Borrar</button>
           </form>
         </div>
@@ -590,7 +590,7 @@
             </div>
             
             <div class="form-group">
-              <label for="curso">Curso</label>         
+              <label for="mod_curso">Curso</label>         
               <select name="mod_curso" class="form-select" id="mod_curso">
 
                 <option value="0" selected>Elije...</option>
@@ -662,7 +662,7 @@
             <input type="text" name="mod_idDias" id="mod_idDias" style="display:none;">
             <input type="text" name="mod_idUsuario" id="mod_idUsuario" style="display:none;">
 
-            <button class="btn btn-success" id="modEstudianteButton">Actualizar</button>
+            <input type="submit" class="btn btn-success" id="modEstudianteButton" value="Actualizar" />
             <button class="btn btn-default" data-dismiss="modal">Volver</button>
           </form>
         </div>
@@ -679,10 +679,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/jquery-validation.js"></script>
   <script>
-    $("#agregarEstudiante").click(function(){
-      var nombre = $('#nombre').val();
-      var apellido = $('#apellido').val();
-    });
+    
     $('#agregarEstudiante').validate({
         rules: {
             nombre: 'required',
@@ -704,7 +701,7 @@
             // Define mensajes para otros campos aquí
         },
         submitHandler: function (form) {
-          $.post('php/controlers/estudiantes.php', $(form).serialize(), function (respuesta) {
+          $.post('php/controlers/agregar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
               console.log(respuesta);
           });
@@ -774,7 +771,7 @@
                     }
                 });
     });
-    $("#modEstudianteButton").validate({
+    $("#modEstudiante").validate({
         rules: {
             mod_nombre_usuario: 'required',
             mod_nombre: 'required',

@@ -84,7 +84,7 @@
         } else {
             // El estudiante no existe, procede a insertarlo
             $sqlInsertar = "INSERT INTO `estudiante`(`nombre`, `apellido`, `dni`, `alergias`, `habilitado`, `id_curso`, `id_dias_acomer`, `id_usuario`) VALUES ('$this->nombre','$this->apellido','$this->dni','$this->alergias',$this->habilitado,$this->id_curso,$this->id_dias,$this->id_usuario)";
-            echo $sqlInsertar;
+            //echo $sqlInsertar;
             // Ejecutar la consulta de inserción
             $resultInsertar = $database->query($sqlInsertar);
 
