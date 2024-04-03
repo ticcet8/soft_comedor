@@ -20,11 +20,15 @@ class Usuario {
     public function getNombreUsuario() {
         return $this->nombreUsuario;
     }
-
+    public function setNombreUsuario($nombre){
+        $this->nombreUsuario = $nombre;
+    }
     public function getPassword() {
         return $this->password;
     }
-
+    public function resetPassword(){
+        $this->password="1234";
+    }
     public function getRol() {
         return $this->rol;
     }
@@ -166,6 +170,24 @@ class Usuario {
         } else {
             $database->disconnect();
             return null;
+        }
+    }
+    public function actualizar($nombreUsuario,$rol=0){
+        $this->nombreUsuario = $nombreUsuario;
+        $this->rol = $rol;
+        $database = new Database();
+        $database->connect();
+        
+        $sql = "UPDATE usuarios SET nombre_usuario = '$this->nombreUsuario', rol = '$this->rol' WHERE id_usuario = $this->id";
+        $result = $database->query($sql);
+
+        // Verificar si la actualización fue exitosa
+        if ($result) {
+            $database->disconnect();
+            return true;
+        } else {
+            $database->disconnect();
+            return false;
         }
     }
 }

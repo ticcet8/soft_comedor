@@ -4,6 +4,7 @@
   include 'php/models/estudiante.php';
   include 'php/models/diasacomer.php';
   include 'php/models/curso.php';
+  include 'php/models/usuario.php';
   
 ?>
 
@@ -321,6 +322,7 @@
                 <tr>
                   <th scope="col">Nombre</th>
                   <th scope="col">Apellido</th>
+                  <th scope="col">Nombre de Usuario</th>
                   <th scope="col">Habilitado</th>
                   <th scope="col">Días ha comer</th>
                   <th scope="col">Acción</th>
@@ -332,10 +334,12 @@
                   $estudiantes = Estudiante::getEstudiantes();
                   
                   foreach ($estudiantes as $e) {
-                    
+                    $us = Usuario::obtenerPorId($e->getId_usuario());
+                    $nombre_usuario = $us->getNombreUsuario();
                     echo "<tr>";
                     echo '<td>' .$e->getNombre(). '</td>';
                     echo '<td>' .$e->getApellido(). '</td>';
+                    echo '<td>' .$nombre_usuario. '</td>';
                     $dias = DiasAComer::obtenerPorId($e->getId_dias());
                     $habilitado = $e->getHabilitado();
                     if($habilitado == 1){
@@ -425,6 +429,7 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form class="form" id="agregarEstudiante">
+            
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" name="nombre" id="nombre">
@@ -437,7 +442,20 @@
               <label for="dni">DNI</label>
               <input type="text" class="form-control" name="dni" id="dni">
             </div>
-            
+            <div class="form-group">
+              <div class="row mt-2">
+                <div class="col-md-3">
+                <label for="nombre">Nombre de Usuario</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario">
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-primary" id="verificar">Verificar</button>
+                </div>
+              </div>
+            </div>
+            <div id="verificar_usuario"></div>
             <div class="form-group">
               <label for="curso">Curso</label>         
               <select name="curso" class="form-select" id="curso">
@@ -509,6 +527,7 @@
             </div>
             <input type="submit" class="btn btn-primary" value="Agregar">
             <button class="btn btn-danger" type="reset">Borrar</button>
+            <button class="btn btn-default" type="reset" data-bs-dismiss="modal">Cerrar</button>
           </form>
         </div>
   
@@ -572,10 +591,7 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form class="form" id="modEstudiante">
-            <div class="form-group">
-              <label for="mod_nombre_usuario">Nombre de Usuario</label>
-              <input type="text" class="form-control" name="mod_nombre_usuario" id="mod_nombre_usuario">
-            </div>
+            
             <div class="form-group">
               <label for="mod_nombre">Nombre</label>
               <input type="text" class="form-control" name="mod_nombre" id="mod_nombre">
@@ -660,8 +676,7 @@
             </div>
             <input type="text" name="mod_idCurso" id="mod_idCurso" style="display:none;">
             <input type="text" name="mod_idDias" id="mod_idDias" style="display:none;">
-            <input type="text" name="mod_idUsuario" id="mod_idUsuario" style="display:none;">
-
+            
             <input type="submit" class="btn btn-success" id="modEstudianteButton" value="Actualizar" />
             <button class="btn btn-default" data-dismiss="modal">Volver</button>
           </form>
@@ -679,12 +694,48 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/jquery-validation.js"></script>
   <script>
+      $('#verificar').click(function(){
+        event.preventDefault();
+
+        var nombre_usuario = $('#nombre_usuario').val();
+        $.ajax({
+                    url: 'php/controlers/verificar_nusuario.php',
+                    type: 'POST',
+                    data: { nombre_usuario: nombre_usuario },
+                    success: function (data) {
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        var mensaje = data;
+                        console.log(mensaje);
+                        if(mensaje == "1"){                          
+                          $('#verificar_usuario').html("Usuario Aprobado");
+                          $('#verificar_usuario').css('color','green');
+                        }else{
+                          $('#verificar_usuario').html("Usuario Existente");
+                          $('#verificar_usuario').css('color','red');
+                        }
+                        
+                    },
+                    error: function () {
+                        alert('Error a verificar el estudiante.');
+                    }
+                });
+      });
+
+
+     $('#nombre, #apellido, #dni').on('input', function() {
+        var nombre = $('#nombre').val().toLowerCase();
+        var apellido = $('#apellido').val().toLowerCase();
+        var dni = $('#dni').val().substring(5,8);
+        var nombre_usuario = nombre.substring(0, 1) + apellido+ dni;
+        $('#nombre_usuario').val(nombre_usuario);
+    });
     
     $('#agregarEstudiante').validate({
         rules: {
             nombre: 'required',
             apellido: 'required',
             dni:'required',
+            nombre_usuario: 'required',
             curso: {
               min:1
             },
@@ -695,6 +746,7 @@
             nombre: 'Por favor, ingresa el nombre',
             apellido: 'Por favor, ingresa el apellido',
             dni: 'Por favor, ingresa el dni',
+            nombre_usuario: 'Por favor, ingresa el nombre de usuario',
             curso: {
               min: 'Por favor, ingresa el curso'
             },
@@ -704,6 +756,9 @@
           $.post('php/controlers/agregar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
               console.log(respuesta);
+              alert('El estudiante se ha agregó correctamente.');
+              // Recargar la página
+              location.reload();
           });
             // Esta función se ejecuta cuando el formulario es válido
             // Aquí puedes enviar el formulario mediante AJAX o realizar otras acciones
@@ -796,6 +851,9 @@
           $.post('php/controlers/modificar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
               console.log(respuesta);
+              alert('El estudiante se ha modificado correctamente.');
+            // Recargar la página
+            location.reload();
           });
             // Esta función se ejecuta cuando el formulario es válido
             // Aquí puedes enviar el formulario mediante AJAX o realizar otras acciones

@@ -18,8 +18,7 @@ if($_POST){
     $habilitado = ($_POST['habilitado']=='on'?1:0);
     $diasacomer = new DiasAComer($lunes,$martes,$miercoles,$jueves,$viernes);
     $id_dias = $diasacomer->guardar();
-    $nombre_usuario = strtolower($nombre).".".strtolower($apellido);
-    $nombre_usuario_sa = iconv('UTF-8', 'ASCII//TRANSLIT', $nombre_usuario);
+    $nombre_usuario_sa = $_POST['nombre_usuario'];
     $usuario = new Usuario($nombre_usuario_sa,$dni);
     $id_usuario = $usuario->guardar();
     $estudiante = new Estudiante ($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso);

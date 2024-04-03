@@ -63,6 +63,36 @@
     public function getId_curso(){
         return $this->id_curso;
     }
+
+    public function setIdEstudiante($id_estudiante) {
+        $this->id_estudiante = $id_estudiante;
+    }
+
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function setApellido($apellido) {
+        $this->apellido = $apellido;
+    }
+
+    public function setAlergias($alergias) {
+        $this->alergias = $alergias;
+    }
+
+    public function setHabilitado($habilitado) {
+        $this->habilitado = $habilitado;
+    }
+
+    public function setIdDias($id_dias) {
+        $this->id_dias = $id_dias;
+    }
+
+    public function setIdUsuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
+    }
+
+
     // Método para guardar un estudiante en la base de datos
     public function guardar() {
         // Instancia de la clase de base de datos

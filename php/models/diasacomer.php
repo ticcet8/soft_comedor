@@ -25,6 +25,7 @@ class DiasAComer{
         );
         return $dias;
     }
+
     public function setID($id){
         $this->id_diasacomer = $id;
     }
@@ -35,6 +36,7 @@ class DiasAComer{
         // Consulta SQL para insertar un nuevo usuario
         $sql = "UPDATE `dias_acomer` SET `lunes`='$lunes',`martes`='$martes',`miercoles`='$miercoles',`jueves`='$jueves',`viernes`='$viernes' WHERE id_dias_acomer=$this->id_diasacomer";
         // Ejecutar la consulta
+        //echo $sql;
         $result = $database->query($sql);
         if($result){
             return true;
@@ -82,6 +84,7 @@ class DiasAComer{
             $row_dias = $result->fetch_assoc();
             //print_r($row_dias);
             //echo $row_dias['id_dias_acomer'];
+        
             $dias_a_comer = array('lunes' => $row_dias['lunes'],
             'martes' => $row_dias['martes'], 
             'miercoles'=>$row_dias['miercoles'],
@@ -94,6 +97,38 @@ class DiasAComer{
             $database->disconnect();
             return null;
         }
-    }   
+    }
+    
+    public static function obtenerPorIdObj($id) {
+        /***
+         * Devulve un objeto del tipo DiasAComer dando el ID.
+         */
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para obtener el usuario por ID
+        $sql = "SELECT * FROM `dias_acomer` WHERE id_dias_acomer= '$id'";
+
+        // Ejecutar la consulta y obtener el resultado
+        $result = $database->query($sql);
+        
+        if ($result) {
+            $row_dias = $result->fetch_assoc();
+            //print_r($row_dias);
+            //echo $row_dias['id_dias_acomer'];
+            $dias_a_comer = new DiasAComer($row_dias['lunes'],$row_dias['martes'],$row_dias['miercoles'],$row_dias['jueves'],$row_dias['viernes']);
+            $dias_a_comer->setID($id);
+            //$dias_a_comer->id = $row['id_dias_acomer'];
+            $database->disconnect();
+            return $dias_a_comer;
+        } else {
+            $database->disconnect();
+            return null;
+        }
+    }
+
+
+
     }
 ?>

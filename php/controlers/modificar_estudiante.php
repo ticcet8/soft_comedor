@@ -11,11 +11,9 @@ if($_POST){
     $dni = $_POST['mod_dni'];
     
     $id_curso = $_POST['mod_idCurso'];
-    $id_usuario = $_POST['mod_idUsuario'];
-    $id_dias = $_POST['mod_idDias'];
+    //$id_usuario = $_POST['mod_idUsuario'];
+    $id_dias = $_POST['mod_idDias']; 
 
-
-    $id_curso = $_POST['mod_curso'];
     $alergias = $_POST['mod_alergias'];
     $lunes = $_POST['mod_lunes'];
     $martes = $_POST['mod_martes'];
@@ -24,23 +22,37 @@ if($_POST){
     $viernes = $_POST['mod_viernes'];
     $habilitado = ($_POST['mod_habilitado']=='on'?1:0);
 
-    /***
-    //Actualizar días a comer
-    $diasacomer = new DiasAComer($lunes,$martes,$miercoles,$jueves,$viernes);
-    $id_dias = $diasacomer->guardar();
     
-    //Actualizar usuario
-    $nombre_usuario = $_POST['mod_nombre_usuario'];
-    $usuario = new Usuario($nombre_usuario_sa,$dni);
-    $id_usuario = $usuario->guardar();
+    //Actualizar días a comer
+    $diasacomer = DiasAComer::obtenerPorIdObj($id_dias);
+    if($diasacomer->actualizardias($lunes,$martes,$miercoles,$jueves,$viernes)){
+        echo json_encode(array('mensaje' => 'dias a comer actualizado correctamente'));
+    }else{
+        echo json_encode(array('mensaje' => 'dias a comer no actualizado'));
+    }
+    
+    //Actualizar usuario - Decidí no modificar el nombre de usuario. 
+    /**$nombre_usuario = $_POST['mod_nombre_usuario'];
+    $usuario = Usuario::obtenerPorId($id_usuario);
+    if($usuario.actualizar($nombre_usuario)){
+        echo json_encode(array('mensaje' => 'usuario actualizado correctamente'));
+    }else{
+        echo json_encode(array('mensaje' => 'dias a comer no actualizado'));
+    }*/
 
     //Actualizar estudiante
-    $estudiante = new Estudiante ($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso);
+    $estudiante = Estudiante::obtenerPorDNI($dni);
+    $estudiante->setNombre($nombre);
+    $estudiante->setApellido($apellido);
+    $estudiante->setAlergias($alergias);
+    $estudiante->setHabilitado($habilitado);
+    $estudiante->setIdDias($id_dias);
+    //$estudiante->setIdUsuario($id_usuario);
     if($estudiante->actualizar()){
-        echo json_encode(array('mensaje' => 'Estudiante guardado correctamente'));
+        echo json_encode(array('mensaje' => 'Estudiante actualizado correctamente'));
     }else{
-        echo json_encode(array('error' => 'Estudiante no guardado - Posiblemente existe'));
+        echo json_encode(array('error' => 'Estudiante no actualizado - Posiblemente existe'));
     }
-     */
+     
 }
 ?>
