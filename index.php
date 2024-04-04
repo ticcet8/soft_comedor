@@ -366,9 +366,10 @@
                         }
                       echo '</td>';
                     }
-                    echo '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$e->getDni().'" ">Ver</button>
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$e->getDni().'" ">Modificar</button>
-                    <button class="btn btn-danger">Eliminar</button></td>';
+                    $dni = $e->getDni();
+                    echo '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$dni.'" ">Ver</button>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$dni.'" ">Modificar</button>
+                    <button class="btn btn-danger eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td>';
                   }
                 ?>
               </tbody>
@@ -576,6 +577,29 @@
       </div>
     </div>
   </div>
+  <!-- Modal para confirmar eliminación de estudiante -->
+
+  <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalConfirmarEliminarLabel">Confirmar Eliminación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este estudiante?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!--Modal para modificar estudiante-->
   <div class="modal" id="modificarEstudiante">
     <div class="modal-dialog">
@@ -768,7 +792,29 @@
             // });
         }
     });
-
+    $('.eliminarEstudiante').click(function(){
+      var dni = $(this).data('id');
+      $('#modalConfirmarEliminar').modal('show');
+      $('#btnConfirmarEliminar').click(function() {
+            // Aquí puedes realizar la eliminación del estudiante utilizando AJAX o cualquier otra lógica
+            //eliminarEstudiante(idEstudiante);
+            $.ajax({
+              url: 'php/controlers/eliminar_estudiante.php',
+              type: 'POST',
+              data: { dni: dni },
+              success: function (data) {
+                  // Coloca los detalles del estudiante en el contenido del modal
+                  //$('#detallesEstudiante').html(data);
+                  //alert("Estudiante eliminado");
+                  location.reload();
+              },
+              error: function () {
+                  alert('Error al obtener datos del estudiante.');
+              }
+            });
+        });
+      
+    });
     $('#verEstudiante').on('show.bs.modal', function (event) {
                 // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace
                 var boton = $(event.relatedTarget); // Botón que activó el modal

@@ -44,7 +44,27 @@ class DiasAComer{
             return false;
         }
     }
-    
+    public function eliminar() {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para eliminar el usuario
+        $sql = "DELETE FROM `dias_acomer` WHERE id_dias_acomer = $this->id_diasacomer";
+        //echo $sql;
+        // Ejecutar la consulta
+        $result = $database->query($sql);
+
+        // Verificar si la eliminación fue exitosa
+        if ($result) {
+            $database->disconnect();
+            return true;
+        } else {
+            echo "Error en la eliminación de los dias ";
+            $database->disconnect();
+            return false;
+        }
+    }
     public function guardar() {
         // Instancia de la clase de base de datos
         $database = new Database();

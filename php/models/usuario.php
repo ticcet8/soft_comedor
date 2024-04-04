@@ -115,7 +115,7 @@ class Usuario {
 
         // Consulta SQL para eliminar el usuario
         $sql = "DELETE FROM usuarios WHERE id_usuario = $this->id";
-
+        //echo $sql;
         // Ejecutar la consulta
         $result = $database->query($sql);
 
