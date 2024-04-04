@@ -330,48 +330,6 @@
               </thead>
               <tbody id="estudiantes-body">
                 <!-- Aquí se mostrarán los estudiantes -->
-                <?php
-                  $estudiantes = Estudiante::getEstudiantes();
-                  
-                  foreach ($estudiantes as $e) {
-                    $us = Usuario::obtenerPorId($e->getId_usuario());
-                    $nombre_usuario = $us->getNombreUsuario();
-                    echo "<tr>";
-                    echo '<td>' .$e->getNombre(). '</td>';
-                    echo '<td>' .$e->getApellido(). '</td>';
-                    echo '<td>' .$nombre_usuario. '</td>';
-                    $dias = DiasAComer::obtenerPorId($e->getId_dias());
-                    $habilitado = $e->getHabilitado();
-                    if($habilitado == 1){
-                      echo '<td>Habilitado</td>';
-                    }else{
-                      echo '<td>No habilitado</td>';
-                    }
-                    if (count($dias)>0) {
-                      echo '<td>';
-                        if($dias['lunes']!='0'){
-                          echo "L - ";
-                        }
-                        if($dias['martes']!='0'){
-                          echo "M - ";
-                        }
-                        if($dias['miercoles']!='0'){
-                          echo "X -";
-                        }
-                        if($dias['jueves']!='0'){
-                          echo " J -";
-                        }
-                        if($dias['viernes']!='0'){
-                          echo "V";
-                        }
-                      echo '</td>';
-                    }
-                    $dni = $e->getDni();
-                    echo '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$dni.'" ">Ver</button>
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$dni.'" ">Modificar</button>
-                    <button class="btn btn-danger eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td>';
-                  }
-                ?>
               </tbody>
               
             </table>
@@ -718,6 +676,21 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/jquery-validation.js"></script>
   <script>
+    $(document).ready(function() {
+        // Realiza una solicitud AJAX para obtener los datos de los estudiantes
+        $.ajax({
+            url: 'php/controlers/obtener_estudiantes.php',
+            type: 'GET',
+            success: function(response) {
+                // Actualiza el contenido de la tabla con los datos de los estudiantes
+                $('#estudiantes-body').html(response);
+            },
+            error: function() {
+                // Maneja cualquier error en la solicitud AJAX
+                alert('Error al obtener los datos de los estudiantes.');
+            }
+        });
+    });
       $('#verificar').click(function(){
         event.preventDefault();
 
