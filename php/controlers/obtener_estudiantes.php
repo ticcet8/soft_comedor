@@ -42,7 +42,7 @@ if(!$_GET){
         $dni = $e->getDni();
         $html .=  '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$dni.'" ">Ver</button>
         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$dni.'" ">Modificar</button>
-        <button class="btn btn-danger eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td></tr>';
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td></tr>';
     }
 
     echo $html;
@@ -84,9 +84,10 @@ if(!$_GET){
             $html .=  '</td>';
         }
         $dni = $e->getDni();
+        //eliminarEstudiante
         $html .=  '<td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verEstudiante" data-id="'.$dni.'" ">Ver</button>
         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarEstudiante" data-id="'.$dni.'" ">Modificar</button>
-        <button class="btn btn-danger eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td></tr>';
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarEstudiante" data-id="'.$dni.'">Eliminar</button></td></tr>';
     }
 
     echo $html;

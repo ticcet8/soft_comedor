@@ -486,7 +486,7 @@
             </div>
             <input type="submit" class="btn btn-primary" value="Agregar">
             <button class="btn btn-danger" type="reset">Borrar</button>
-            <button class="btn btn-default" type="reset" data-bs-dismiss="modal">Cerrar</button>
+            <button class="btn btn-secondary" type="reset" data-bs-dismiss="modal">Volver</button>
           </form>
         </div>
   
@@ -537,12 +537,12 @@
   </div>
   <!-- Modal para confirmar eliminación de estudiante -->
 
-  <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
+  <div class="modal fade" id="eliminarEstudiante" tabindex="-1" role="dialog" aria-labelledby="eliminarEstudianteLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalConfirmarEliminarLabel">Confirmar Eliminación</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="eliminarEstudianteLabel">Confirmar Eliminación</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -550,7 +550,7 @@
           ¿Estás seguro de que deseas eliminar este estudiante?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
         </div>
       </div>
@@ -772,8 +772,9 @@
         submitHandler: function (form) {
           $.post('php/controlers/agregar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
+             
+              console.log(respuesta);
               var respJson = JSON.parse(respuesta);
-              //console.log(respuesta);
               alert(respJson.mensaje);
               // Recargar la página
               location.reload();
@@ -786,29 +787,8 @@
             // });
         }
     });
-    $('.eliminarEstudiante').click(function(){
-      var dni = $(this).data('id');
-      $('#modalConfirmarEliminar').modal('show');
-      $('#btnConfirmarEliminar').click(function() {
-            // Aquí puedes realizar la eliminación del estudiante utilizando AJAX o cualquier otra lógica
-            //eliminarEstudiante(idEstudiante);
-            $.ajax({
-              url: 'php/controlers/eliminar_estudiante.php',
-              type: 'POST',
-              data: { dni: dni },
-              success: function (data) {
-                  // Coloca los detalles del estudiante en el contenido del modal
-                  //$('#detallesEstudiante').html(data);
-                  //alert("Estudiante eliminado");
-                  location.reload();
-              },
-              error: function () {
-                  alert('Error al obtener datos del estudiante.');
-              }
-            });
-        });
-      
-    });
+    
+
     $('#verEstudiante').on('show.bs.modal', function (event) {
                 // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace
                 var boton = $(event.relatedTarget); // Botón que activó el modal
@@ -915,6 +895,32 @@
               });
           }
     });
+    //$('#modificarEstudiante').on('show.bs.modal', function (event) {
+    $('#eliminarEstudiante').on('show.bs.modal', function(event){
+      //var dni = $(this).data('id');
+      var boton = $(event.relatedTarget); // Botón que activó el modal
+      var dni = boton.data('id');
+      $('#btnConfirmarEliminar').click(function() {
+            // Aquí puedes realizar la eliminación del estudiante utilizando AJAX o cualquier otra lógica
+            //eliminarEstudiante(idEstudiante);
+            $.ajax({
+              url: 'php/controlers/eliminar_estudiante.php',
+              type: 'POST',
+              data: { dni: dni },
+              success: function (data) {
+                  // Coloca los detalles del estudiante en el contenido del modal
+                  //$('#detallesEstudiante').html(data);
+                  //alert("Estudiante eliminado");
+                  location.reload();
+              },
+              error: function () {
+                  alert('Error al obtener datos del estudiante.');
+              }
+            });
+        });
+    });
+
+
   </script>
   <script>
     /** Bloque de programación Para calificar la comida */
