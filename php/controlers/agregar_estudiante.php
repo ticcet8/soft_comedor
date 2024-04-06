@@ -18,14 +18,24 @@ if($_POST){
     $habilitado = ($_POST['habilitado']=='on'?1:0);
     $diasacomer = new DiasAComer($lunes,$martes,$miercoles,$jueves,$viernes);
     $id_dias = $diasacomer->guardar();
-    $nombre_usuario_sa = $_POST['nombre_usuario'];
-    $usuario = new Usuario($nombre_usuario_sa,$dni);
-    $id_usuario = $usuario->guardar();
-    $estudiante = new Estudiante ($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso);
-    if($estudiante->guardar()){
-        echo json_encode(array('mensaje' => 'Estudiante guardado correctamente'));
+    if($id_dias){
+        $nombre_usuario_sa = $_POST['nombre_usuario'];
+        $usuario = new Usuario($nombre_usuario_sa,$dni);
+        $id_usuario = $usuario->guardar();
+        if($id_usuario){
+            $estudiante = new Estudiante ($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso);
+            if($estudiante->guardar()){
+                echo json_encode(array('mensaje' => 'Estudiante guardado correctamente'));
+            }else{
+                echo json_encode(array('mensaje' => 'Estudiante no guardado - Posiblemente existe'));
+            }
+        }else{
+            echo json_encode(array('mensaje' => 'Estudiante no guardado - Usuario repetido'));
+        }
+        
     }else{
-        echo json_encode(array('error' => 'Estudiante no guardado - Posiblemente existe'));
+        echo json_encode(array('mensaje' => 'Estudiante no guardado - Por días a comer'));
     }
+    
 }
 ?>

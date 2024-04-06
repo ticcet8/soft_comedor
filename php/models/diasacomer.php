@@ -82,7 +82,7 @@ class DiasAComer{
             $database->disconnect();
             return $id;
         } else {
-            echo "Error en la inserción: " . $database->conn->error;
+            //echo "Error en la inserción: " . $database->conn->error;
             $database->disconnect();
             return false;
         }

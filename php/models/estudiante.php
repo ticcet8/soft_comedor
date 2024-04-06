@@ -253,6 +253,38 @@
         $database->disconnect();
         return $estudiantes;
     }
+    public static function obtenerPorNombreODNI($clave) {
+        // Instancia de la clase de base de datos
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para obtener el estudiante por DNI
+        $sql = "SELECT * FROM `estudiante` WHERE LOWER(dni) = LOWER('$clave') OR LOWER(nombre) LIKE LOWER('%$clave%') OR LOWER(apellido) LIKE LOWER('%$clave%')";
+        $result = $database->query($sql);
+        // Ejecutar la consulta y obtener el resultado
+        $estudiantes = array();
+        //$nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso)
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $estudiante = new Estudiante(
+                    $row['nombre'],
+                    $row['apellido'],
+                    $row['dni'],
+                    $row['alergias'],
+                    $row['habilitado'],
+                    $row['id_dias_acomer'],
+                    $row['id_usuario'],
+                    $row['id_curso']
+                );
+                $estudiante->id_estudiante = $row['id_estudiante'];
+                $estudiante->dni = $row['dni'];
+                $estudiantes[] = $estudiante;
+            }
+        }
+
+        $database->disconnect();
+        return $estudiantes;
+    }
 }
 
 ?>

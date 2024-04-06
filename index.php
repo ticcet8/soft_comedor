@@ -310,7 +310,7 @@
           <form>
               <div class="form-group form-inline">
                 <label for="buscador">Buscar</label>
-                <input type="text" class="form-inline" id="buscador" name="buscador" placeholder="Ingrese nombre o dni" />
+                <input type="text" class="form-inline" id="buscador" name="buscador" placeholder="Ingrese nombre, apellido o dni" style="width:50%;"/>
                 <button id="buscar" class="btn btn-primary">Buscar</button>
               </div>
             </form>
@@ -659,11 +659,14 @@
             <input type="text" name="mod_idCurso" id="mod_idCurso" style="display:none;">
             <input type="text" name="mod_idDias" id="mod_idDias" style="display:none;">
             
-            <input type="submit" class="btn btn-success" id="modEstudianteButton" value="Actualizar" />
-            <button class="btn btn-default" data-dismiss="modal">Volver</button>
           </form>
         </div>
-  
+        <div class="modal-footer">
+          <!-- Botón "Volver" fuera del formulario -->
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+          <!-- Botón "Guardar" dentro del formulario -->
+          <button type="submit" class="btn btn-primary" id="btnGuardarCambios" >Guardar cambios</button>
+      </div>
       </div>
     </div>
   </div>
@@ -681,6 +684,23 @@
         $.ajax({
             url: 'php/controlers/obtener_estudiantes.php',
             type: 'GET',
+            success: function(response) {
+                // Actualiza el contenido de la tabla con los datos de los estudiantes
+                $('#estudiantes-body').html(response);
+            },
+            error: function() {
+                // Maneja cualquier error en la solicitud AJAX
+                alert('Error al obtener los datos de los estudiantes.');
+            }
+        });
+    });
+    $("#buscar").click(function(){
+      event.preventDefault();
+      var buscador = $('#buscador').val();
+      $.ajax({
+            url: 'php/controlers/obtener_estudiantes.php',
+            type: 'GET',
+            data: { buscador: buscador },
             success: function(response) {
                 // Actualiza el contenido de la tabla con los datos de los estudiantes
                 $('#estudiantes-body').html(response);
@@ -752,8 +772,9 @@
         submitHandler: function (form) {
           $.post('php/controlers/agregar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
-              console.log(respuesta);
-              alert('El estudiante se ha agregó correctamente.');
+              var respJson = JSON.parse(respuesta);
+              //console.log(respuesta);
+              alert(respJson.mensaje);
               // Recargar la página
               location.reload();
           });
@@ -866,21 +887,33 @@
             },
             // Define mensajes para otros campos aquí
         },
-        submitHandler: function (form) {
+        /**submitHandler: function (form) {
           $.post('php/controlers/modificar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
               console.log(respuesta);
               alert('El estudiante se ha modificado correctamente.');
             // Recargar la página
             location.reload();
-          });
+          });*/
             // Esta función se ejecuta cuando el formulario es válido
             // Aquí puedes enviar el formulario mediante AJAX o realizar otras acciones
             // Ejemplo:
             // $.post('tu_archivo_php.php', $(form).serialize(), function (respuesta) {
             //     // Manejar la respuesta del servidor
             // });
-        }
+          //}
+        
+    });
+    $('#btnGuardarCambios').click(function() {
+      if($("#modEstudiante").valid()) {
+          $.post('php/controlers/modificar_estudiante.php', $("#modEstudiante").serialize(), function (respuesta) {
+              // Manejar la respuesta del servidor
+              console.log(respuesta);
+              alert('El estudiante se ha modificado correctamente.');
+              // Recargar la página
+              location.reload();
+              });
+          }
     });
   </script>
   <script>

@@ -82,7 +82,7 @@ class Usuario {
         $database->connect();
         // Corroboro que NO SE ENCUENTRE ESE USUARIO DE ANTEMANO hacer un Array con el error
         $sqlSC = "SELECT `nombre_usuario` FROM `usuarios` WHERE nombre_usuario='$this->nombreUsuario'";
-        echo $sqlSC;
+        //echo $sqlSC;
         // Consulta SQL para insertar un nuevo usuario
         $r2 = $database->query($sqlSC);
         $row = $r2->fetch_assoc();
