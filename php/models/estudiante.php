@@ -7,6 +7,8 @@
         private $habilitado;
         private $id_dias;
         private $id_usuario;
+        private $dni;
+        private $id_curso;
     
     
     public function __construct($nombre, $apellido, $dni, $alergias, $habilitado, $id_dias, $id_usuario,$id_curso) {
@@ -187,6 +189,7 @@
 
     //Método para obtener un solo estudiante por dni
     public static function obtenerPorDNI($dni) {
+        /*** Esta función devuelve un estudiante según el dni mandado. En caso contrariol devuelve null. */
         // Instancia de la clase de base de datos
         $database = new Database();
         $database->connect();

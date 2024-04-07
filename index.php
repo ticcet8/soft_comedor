@@ -304,7 +304,11 @@
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             Listado de estudiantes
-            <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#agregar_estudiante"><i class="bi bi-person-fill-add"></i></button>
+            <div class="barraderecha float-right">
+              <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#gestionar_cursos">Gestionar Cursos</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar_estudiante"><i class="bi bi-person-fill-add"></i></button>
+              
+            </div>
           </div>
           <div class="text-center mt-2">
           <form>
@@ -423,7 +427,7 @@
                 <?php
                   $cursos = Curso::getCursos();
                   foreach($cursos as $curso){
-                    echo "<option value='".$curso['id']."'>".$curso['nombre']."</option>";
+                    echo "<option value='".$curso->getIdcurso()."'>".$curso->getCurso()."</option>";
                   }
                   
                 ?>
@@ -556,8 +560,49 @@
       </div>
     </div>
   </div>
+  <!--Modal para gestionar cursos -->
+  
+  <div class="modal" id="gestionar_cursos">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Gestionar Cursos</h4>
+          
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre del Curso</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="listado_cursos">
 
-
+              </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <form class="form">
+              <div class="row align-items-center">
+              <div class="col-auto">
+                  <label for="nombreCurso" class="col-form-label">Nombre del Curso:</label>
+              </div>
+              <div class="col">
+                  <input type="text" class="form-control" id="nombreCurso" placeholder="Ingrese el nombre del curso">
+              </div>
+              <div class="col-auto">
+                  <button type="button" class="btn btn-primary" id="btnAgregar">Agregar</button>
+              </div>
+          </div>
+              
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+                
   <!--Modal para modificar estudiante-->
   <div class="modal" id="modificarEstudiante">
     <div class="modal-dialog">
@@ -595,7 +640,7 @@
                 <?php
                   $cursos = Curso::getCursos();
                   foreach($cursos as $curso){
-                    echo "<option value='".$curso['id']."'>".$curso['nombre']."</option>";
+                    echo "<option value='".$curso->getIdcurso()."'>".$curso->getCurso()."</option>";
                   }
                   
                 ?>
@@ -672,11 +717,9 @@
   </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"></script>
+  <script src="js\bootstrap.bundle.min.js"></script>
   
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js\jquery-3.6.0.min.js"></script>
   <script src="js/jquery-validation.js"></script>
   <script>
     $(document).ready(function() {
@@ -722,7 +765,7 @@
                     success: function (data) {
                         // Coloca los detalles del estudiante en el contenido del modal
                         var mensaje = data;
-                        console.log(mensaje);
+                        //console.log(mensaje);
                         if(mensaje == "1"){                          
                           $('#verificar_usuario').html("Usuario Aprobado");
                           $('#verificar_usuario').css('color','green');
@@ -773,7 +816,7 @@
           $.post('php/controlers/agregar_estudiante.php', $(form).serialize(), function (respuesta) {
               // Manejar la respuesta del servidor
              
-              console.log(respuesta);
+              //console.log(respuesta);
               var respJson = JSON.parse(respuesta);
               alert(respJson.mensaje);
               // Recargar la página
@@ -787,7 +830,21 @@
             // });
         }
     });
-    
+    $('#gestionar_cursos').on('show.bs.modal', function (event) {
+      //console.log("ingreso a gestionar");      
+      $.ajax({
+                    url: 'php/controlers/obtener_cursos.php',
+                    type: 'GET',
+                    success: function (data) {
+                        //console.log(data);
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        $('#listado_cursos').html(data);
+                    },
+                    error: function () {
+                        alert('Error al obtener datos del cursos.');
+                    }
+        });         
+    });
 
     $('#verEstudiante').on('show.bs.modal', function (event) {
                 // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace

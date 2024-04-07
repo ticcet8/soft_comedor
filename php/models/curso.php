@@ -4,13 +4,22 @@ class Curso {
     private $nombre;
     
 
-    public function __construct($nombre) {
+    public function __construct($id,$nombre) {
+        $this->id_curso = $id;
         $this->nombre= $nombre;
     }
 
     // Métodos para acceder a los atributos
-    
+    public function getIdcurso() {
+        /**
+         * Devuelve el ID del curso
+         */
+        return $this->id_curso; 
+    }
     public function getCurso() {
+        /**
+         * Devuelve el Nombre del curso
+         */
         return $this->nombre;
     }
 
@@ -32,9 +41,9 @@ class Curso {
             while ($row = $result->fetch_assoc()) {
                 //echo "ID: " . $row['id_curso'] . "<br>";
                 //echo "Nombre Curso: " . $row['nombre'] . "<br>";
-                $curso = array(
-                    'id'=>$row['id_curso'],
-                    'nombre'=>$row['nombre']
+                $curso = new Curso(
+                    $row['id_curso'],
+                    $row['nombre']
                 );
                 $cursos[] = $curso;
             }
@@ -139,7 +148,7 @@ class Curso {
         // Ejecutar la consulta y obtener el resultado
         $result = $database->query($sql);
         if($result && $row = $result->fetch_assoc()){
-            $curso = new Curso($row['nombre']);
+            $curso = new Curso($id_curso,$row['nombre']);
             $database->disconnect();
             return $curso;
         }else{
