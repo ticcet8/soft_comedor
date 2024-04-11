@@ -19,14 +19,13 @@ if($_POST){
       'nombre'=>$nombre,
       'apellido'=>$apellido,
       'dni'=>$dni,
-      'curso' => $curso,
+      'id_curso' => $curso,
       'alergias' => $alergias,
       'dias'=>[$dias['lunes'],$dias['martes'],$dias['miercoles'],$dias['jueves'],$dias['viernes']],
       'nombre_usuario'=>$nombre_usuario,
       'habilitado'=>$estudiante->getHabilitado(),
       'id_dias' =>$estudiante->getId_dias(),
-      'id_usuario' =>$estudiante->getId_usuario(),
-      'id_curso' =>$estudiante->getId_usuario()
+      'id_usuario' =>$estudiante->getId_usuario()
 
     );
     

@@ -62,7 +62,7 @@ class Curso {
         $database->connect();
         // Corroboro QUE NO INGRESEN DOS CURSOS IGUALES
         $sqlSC = "SELECT `id_curso`, `nombre` FROM `curso` WHERE nombre='$this->nombre'";
-        echo $sqlSC;
+        //echo $sqlSC;
         // Consulta SQL para insertar un nuevo usuario
         $r2 = $database->query($sqlSC);
         $row = $r2->fetch_assoc();
@@ -74,13 +74,15 @@ class Curso {
             $result = $database->query($sql);
 
             // Verificar si la inserción fue exitosa
+            $id = -1;
             if ($result) {
+                $id = $database->obtenerUltimoIdInsertado();
                 $database->disconnect();
-                return true;
+                return $id;
             } else {
                 echo "Error en la inserción: " . $database->conn->error;
                 $database->disconnect();
-                return false;
+                return null;
             }
         }
         
@@ -120,8 +122,8 @@ class Curso {
         $database = new Database();
         $database->connect();
         // Corroboro QUE NO INGRESEN DOS CURSOS IGUALES
-        $sqlSC = "DELETE FROM curso WHERE nombre = '$this->nombre';";
-        echo $sqlSC;
+        $sqlSC = "DELETE FROM curso WHERE id_curso = '$this->id_curso';";
+        //echo $sqlSC;
 
         // Ejecutar la consulta
         $result = $database->query($sqlSC);
@@ -144,7 +146,8 @@ class Curso {
         $database->connect();
 
         // Consulta SQL para obtener el estudiante por DNI
-        $sql = "SELECT * FROM curso WHERE dni = '$id_curso'";
+        $sql = "SELECT * FROM curso WHERE id_curso = '$id_curso'";
+        
         // Ejecutar la consulta y obtener el resultado
         $result = $database->query($sql);
         if($result && $row = $result->fetch_assoc()){
@@ -156,5 +159,54 @@ class Curso {
             return null;
         }
     }
+    /** Este método sirve para hacer paginación de los cursos
+     * $nroPagina = Es el número de página correspondiente la consulta
+     * $filas = Es el número de filas que quiero obtener
+    */
+    public static function getCursosPag($nroPagina, $filas){
+        
+        $database = new Database();
+        $database->connect();
+
+        // Consulta SQL para insertar un nuevo usuario
+        $sql = "SELECT `id_curso`, `nombre` FROM `curso` LIMIT $nroPagina, $filas";
+        // Ejecutar la consulta
+        $result = $database->query($sql);
+        $cursos = [];
+        if($result){
+            //si devolvio un resultado debería corroborar contraseña $pass
+            while ($row = $result->fetch_assoc()) {
+                //echo "ID: " . $row['id_curso'] . "<br>";
+                //echo "Nombre Curso: " . $row['nombre'] . "<br>";
+                $curso = new Curso(
+                    $row['id_curso'],
+                    $row['nombre']
+                );
+                $cursos[] = $curso;
+            }
+        }else{
+            //sino devolver un string que diga error de usuario
+           $usuario['error'] = 2; 
+           $usuario['msj_error'] = 'Error de base de dato';
+        }
+        $database->disconnect();
+        return $cursos;
+    }
+    public static function getCantCursos(){
+        $database = new Database();
+        $database->connect();
+        $sql = "SELECT COUNT(*) AS total_filas FROM curso;";
+        // Ejecutar la consulta
+        $result = $database->query($sql);
+        
+        if($result){
+            $fila = $result->fetch_assoc();
+            $total_filas = $fila['total_filas'];
+            return $total_filas;
+        }else{
+            return null;
+        }
+    }
+
 }
 ?>

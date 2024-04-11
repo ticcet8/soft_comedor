@@ -10,7 +10,7 @@ if($_POST){
     $apellido = $_POST['mod_apellido'];
     $dni = $_POST['mod_dni'];
     
-    $id_curso = $_POST['mod_idCurso'];
+    $id_curso = $_POST['mod_curso'];
     //$id_usuario = $_POST['mod_idUsuario'];
     $id_dias = $_POST['mod_idDias']; 
 
@@ -47,6 +47,7 @@ if($_POST){
     $estudiante->setAlergias($alergias);
     $estudiante->setHabilitado($habilitado);
     $estudiante->setIdDias($id_dias);
+    $estudiante->setIdCurso($id_curso);
     //$estudiante->setIdUsuario($id_usuario);
     if($estudiante->actualizar()){
         echo json_encode(array('mensaje' => 'Estudiante actualizado correctamente'));

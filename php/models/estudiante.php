@@ -85,7 +85,9 @@
     public function setHabilitado($habilitado) {
         $this->habilitado = $habilitado;
     }
-
+    public function setIdCurso($id_curso) {
+        $this->id_curso = $id_curso;
+    }
     public function setIdDias($id_dias) {
         $this->id_dias = $id_dias;
     }
@@ -145,9 +147,10 @@
             `dni`='$this->dni',
             `alergias`='$this->alergias',
             `id_dias_acomer`='$this->id_dias',
+            `id_curso` = '$this->id_curso',
             `habilitado`=$this->habilitado
             WHERE id_estudiante = $this->id_estudiante";
-       
+        echo $sql;
         // Ejecutar la consulta
         $result = $database->query($sql);
 

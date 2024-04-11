@@ -328,7 +328,7 @@
                   <th scope="col">Apellido</th>
                   <th scope="col">Nombre de Usuario</th>
                   <th scope="col">Habilitado</th>
-                  <th scope="col">Días ha comer</th>
+                  <th scope="col">Días a comer</th>
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
@@ -423,7 +423,7 @@
               <label for="curso">Curso</label>         
               <select name="curso" class="form-select" id="curso">
 
-                <option value="0" selected>Elije...</option>
+                <option value="-1" selected>Elije...</option>
                 <?php
                   $cursos = Curso::getCursos();
                   foreach($cursos as $curso){
@@ -571,7 +571,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <table class="table">
+            <table class="table" id="tablaCursos">
               <thead>
                 <tr>
                   <th scope="col">Nombre del Curso</th>
@@ -590,10 +590,10 @@
                   <label for="nombreCurso" class="col-form-label">Nombre del Curso:</label>
               </div>
               <div class="col">
-                  <input type="text" class="form-control" id="nombreCurso" placeholder="Ingrese el nombre del curso">
+                  <input type="text" class="form-control" id="nombreCurso" name ="nombreCurso" placeholder="Ingrese el nombre del curso">
               </div>
               <div class="col-auto">
-                  <button type="button" class="btn btn-primary" id="btnAgregar">Agregar</button>
+                  <button type="button" class="btn btn-primary" id="btnAgregarCurso">Agregar</button>
               </div>
           </div>
               
@@ -602,7 +602,25 @@
       </div>
     </div>
   </div>
-                
+  <div class="modal fade" id="eliminarCurso" tabindex="-1" role="dialog" aria-labelledby="eliminarCursoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eliminarCursoLabel">Confirmar Eliminación</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este estudiante?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminarCurso">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>               
   <!--Modal para modificar estudiante-->
   <div class="modal" id="modificarEstudiante">
     <div class="modal-dialog">
@@ -636,7 +654,7 @@
               <label for="mod_curso">Curso</label>         
               <select name="mod_curso" class="form-select" id="mod_curso">
 
-                <option value="0" selected>Elije...</option>
+                <option value="-1" selected>Elije...</option>
                 <?php
                   $cursos = Curso::getCursos();
                   foreach($cursos as $curso){
@@ -736,6 +754,43 @@
                 alert('Error al obtener los datos de los estudiantes.');
             }
         });
+       /**  $('.cambiarVistaCursos').click(function(event){
+        var id = $(this).data('id');
+        console.log('Ingresando a cambiar vista cursos con ID: ' + id);
+        console.log('ingreso a cambiar vista cursos');
+        $.ajax({
+                    url: 'php/controlers/obtener_cursos.php',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (data) {
+                        //console.log(data);
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        $('#listado_cursos').html(data);
+                    },
+                    error: function () {
+                        alert('Error al obtener datos del cursos.');
+                    }
+        });
+    });*/
+    $(document).on('click', '.cambiarVistaCursos', function(event) {
+        //console.log('El evento click se activó en un elemento con la clase cambiarVistaCursos');
+        var id = $(this).data('id');
+        //console.log('El ID del elemento clickeado es: ' + id);
+        $.ajax({
+                    url: 'php/controlers/obtener_cursos.php',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (data) {
+                        //console.log(data);
+                        // Coloca los detalles del estudiante en el contenido del modal
+                        $('#listado_cursos').html(data);
+                    },
+                    error: function () {
+                        alert('Error al obtener datos del cursos.');
+                    }
+        });
+    });
+
     });
     $("#buscar").click(function(){
       event.preventDefault();
@@ -831,21 +886,23 @@
         }
     });
     $('#gestionar_cursos').on('show.bs.modal', function (event) {
-      //console.log("ingreso a gestionar");      
+      //console.log("ingreso a gestionar");   
+      var id=1;   
       $.ajax({
-                    url: 'php/controlers/obtener_cursos.php',
-                    type: 'GET',
-                    success: function (data) {
-                        //console.log(data);
-                        // Coloca los detalles del estudiante en el contenido del modal
-                        $('#listado_cursos').html(data);
-                    },
-                    error: function () {
-                        alert('Error al obtener datos del cursos.');
-                    }
+            url: 'php/controlers/obtener_cursos.php',
+            type: 'GET',
+            data: { id: id },
+            success: function (data) {
+                //console.log(data);
+                // Coloca los detalles del estudiante en el contenido del modal
+                $('#listado_cursos').html(data);
+            },
+            error: function () {
+                alert('Error al obtener datos del cursos.');
+            }
         });         
     });
-
+    
     $('#verEstudiante').on('show.bs.modal', function (event) {
                 // Puedes obtener el ID del estudiante desde algún lugar, por ejemplo, un botón o un enlace
                 var boton = $(event.relatedTarget); // Botón que activó el modal
@@ -893,9 +950,9 @@
                         $('#mod_viernes').val(data['dias'][4]);
                         $("#mod_habilitado").prop('checked', data['habilitado'] === "1");
                         
-                        $('#mod_idCurso').val(data['id_curso']);
+                        $('#mod_curso').val(data['id_curso']);
                         $('#mod_idDias').val(data['id_dias']);
-                        $('#mod_idUsuario').val(data['id_curso']);
+                        $('#mod_idUsuario').val(data['id_usuario']);
                         
                     },
                     error: function () {
@@ -977,7 +1034,62 @@
         });
     });
 
-
+    $('#eliminarCurso').on('show.bs.modal', function(event){
+      //var dni = $(this).data('id');
+      var boton = $(event.relatedTarget); // Botón que activó el modal
+      var id_curso = boton.data('id');
+      $('#btnConfirmarEliminarCurso').click(function() {
+            // Aquí puedes realizar la eliminación del estudiante utilizando AJAX o cualquier otra lógica
+            //eliminarEstudiante(idEstudiante);
+            $.ajax({
+              url: 'php/controlers/eliminar_curso.php',
+              type: 'POST',
+              data: { id_curso: id_curso },
+              success: function (data) {
+                  // Coloca los detalles del estudiante en el contenido del modal
+                  //$('#detallesEstudiante').html(data);
+                  console.log(data);
+                  alert(data);
+                  location.reload();
+              },
+              error: function () {
+                  alert('Error al obtener datos del estudiante.');
+              }
+            });
+        });
+    });
+    $("#btnAgregarCurso").click(function(){
+      var nombreCurso = $("#nombreCurso").val();
+      $.ajax({
+              url: 'php/controlers/agregar_curso.php',
+              type: 'POST',
+              data: { nombreCurso: nombreCurso },
+              dataType: 'json', // Indica que esperas una respuesta en formato JSON
+              success: function (data) {
+                  // Coloca los detalles del estudiante en el contenido del modal
+                  //$('#detallesEstudiante').html(data);
+                  alert(data['mensaje']);
+                  $("#nombreCurso").val("");
+                    $.ajax({
+                      url: 'php/controlers/obtener_cursos.php',
+                      data: {id:1},
+                      type: 'GET',
+                      success: function (data) {
+                          //console.log(data);
+                          // Coloca los detalles del estudiante en el contenido del modal
+                          $('#listado_cursos').html(data);
+                      },
+                      error: function () {
+                          alert('Error al obtener datos del cursos.');
+                      }
+                    });
+                  
+              },
+              error: function () {
+                  alert('Error al obtener datos del estudiante.');
+              }
+            });
+    });
   </script>
   <script>
     /** Bloque de programación Para calificar la comida */
