@@ -65,3 +65,11 @@ CREATE TABLE configuracion(
     modificar_datos BOOLEAN,
     cometarios BOOLEAN
 );
+
+CREATE TABLE registro_comidas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_comida INT,
+    fecha DATE,
+    valoracion INT,
+    FOREIGN KEY (id_comida) REFERENCES comida(id_comida)
+);
