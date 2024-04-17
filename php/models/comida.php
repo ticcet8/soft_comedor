@@ -1,5 +1,5 @@
 <?php
-class comida{
+class Comida{
     private $id_comida;
     private $nombre;
 
@@ -8,7 +8,7 @@ class comida{
     private $fecha;
     private $valoracion; 
     
-    public function _construct($nombre, $fecha){
+    public function __construct($nombre, $fecha){
         $this->nombre = $nombre;
         $this->fecha = $fecha;
     }
@@ -28,20 +28,25 @@ class comida{
         $database = new Database();
         $database->connect();
         //Verifica si ya hay comida cargada ese día. 
-        $sqlVerificar = "SELECT id FROM registro_comidas WHERE fecha = NOW()";
+        $sqlVerificar = "SELECT id FROM registro_comidas WHERE fecha = '$this->fecha'";
+        //echo $sqlVerificar;
         $resultVerificar = $database->query($sqlVerificar);
+        
         if ($resultVerificar && $resultVerificar->num_rows > 0) {
-            return false;
-        }else{
+            //return false;
+            //echo "no se puede";
+        }else{ 
+            //echo "si se puede";    
             // Consulta SQL para verificar si el estudiante ya existe la comida
             $sqlVerificar = "SELECT id_comida FROM comida WHERE nombre = '$this->nombre'";
 
             // Ejecutar la consulta de verificación
             $resultVerificar = $database->query($sqlVerificar);
-            $id_comida = -1;
+            
             if ($resultVerificar && $resultVerificar->num_rows > 0) {
                 $row = $resultVerificar->fetch_assoc();
                 $this->id_comida = $row['id_comida'];
+                //echo $this->id_comida;
             }else{
                 //Inserto cómida
                 $sqlInsertar = "INSERT INTO `comida`(`nombre`) VALUES ('$this->nombre')";
@@ -53,22 +58,26 @@ class comida{
                     $database->disconnect();
                                
                 } else {
-                    echo "Error en la inserción de comida";
+                    //echo "Error en la inserción de comida";
                     $database->disconnect();
                     return false;
                 }
                 //Hago el registro 
-                $sqlInsertar = "INSERT INTO `registro_comidas`(`id_comida`, `fecha`, `valoracion`) VALUES ($id_comida,'$this->nombre',-1)";
-                $resultInsertar = $database->query($sqlInsertar);   
-                if ($resultInsertar) {
-                    return 1;
-                }else{
-                    return 0;
-                }
+                
+            }
+            $sqlInsertar = "INSERT INTO `registro_comidas`(`id_comida`, `fecha`, `valoracion`) VALUES ('$this->id_comida','$this->fecha','0')";
+            //echo $sqlInsertar;
+            $resultInsertar = $database->query($sqlInsertar);   
+            if ($resultInsertar) {
+                //echo "COmida guardada";
+                return true;
+            }else{
+                //echo "COmida no guardada";
+                return false;
             }
         }
 
-        
+    
     }
 }
 ?>

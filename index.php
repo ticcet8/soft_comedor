@@ -108,40 +108,39 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>Lunes</th>
-                  <th></th>
+                  <th id="dia_lunes">Lunes</th>
+                  <td id="comida_lunes">Pizza</td>
                 </tr>
                 <tr>
-                  <th>Martes</th>
-                  <th></th>
+                  <th id="dia_martes">Martes</th>
+                  <td id="comida_martes"></td>
                 </tr>
                 <tr>
-                  <th>Miércoles</th>
-                  <th></th>
+                  <th id="dia_miercoles">Miércoles</th>
+                  <td id="comida_miercoles"></td>
                 </tr>
                 <tr>
-                  <th>Jueves</th>
-                  <th></th>
+                  <th id ="dia_jueves">Jueves</th>
+                  <td id="comida_jueves"></td>
                 </tr>
                 <tr>
-                  <th>Viernes</th>
-                  <th></th>
+                  <th id="dia_viernes">Viernes</th>
+                  <td id="comida_viernes"></td>
                 </tr>
               </tbody>
             </table>
             <h5>Ingrese Comida</h5>
-            <form class="form-inline">
+            <form class="form-inline" id="formComida">
 
               <div class="form-group">
                 <label for="comida">Comida</label>
-                <input type="text" class="form-control" id="comida" aria-describedby="comidaHelp">
-                <small id="comidaHelp" class="form-text text-muted">Ingrese una comida apropiada</small>
+                <input type="text" name="comida" class="form-control" id="comida" aria-describedby="comidaHelp">
               </div>
 
               <div class="form-group">
                 <label for="fecha">Fecha</label>
                 <div class="input-group date" id="datepicker">
-                  <input type="date" class="form-control" id="fecha" />
+                  <input type="date" class="form-control" id="fecha" name="fecha" />
                   <span class="input-group-append">
                     <span class="input-group-text bg-light d-block">
                       <i class="bi bi-calendar"></i>
@@ -149,8 +148,7 @@
                   </span>
                 </div>
               </div>
-
-              <button class="btn btn-primary mt-2" style="width:100%">Agregar Comida</button>
+              <input class="btn btn-primary mt-2" style="width:100%"  type="submit" value="Agregar comida" />
             </form>
           </div>
         </div>
@@ -756,7 +754,33 @@
               alert('Error al obtener datos del estudiante.');
           }
         });
-    
+    $('#formComida').validate({
+    rules: {
+        comida: 'required',
+        fecha: 'required'
+    },
+    messages: {
+        comida: 'Por favor, ingresa el nombre',
+        fecha: 'Por favor, ingresa el apellido'
+    },
+    submitHandler: function (form) {
+      var comida = $("#comida").val();
+      var fecha = $("#fecha").val();
+      $.ajax({
+                url: 'php/controlers/agregar_comida.php',
+                type: 'POST',
+                data: {comida:comida,fecha:fecha},
+                //dataType: 'json', // Indica que esperas una respuesta en formato JSON
+                success: function (data) {
+                    // Coloca los detalles del estudiante en el contenido del modal
+                    console.log(data);
+                },
+                error: function () {
+                    alert('Error al obtener datos de la comida.');
+                }
+            });        
+    }
+  });
   </script>
   <script>
     /** Bloque de programación Para calificar la comida */
